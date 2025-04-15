@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="sv" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <title>MindTracker | <%= typeof title != 'undefined' ? title : 'KBT-hjälpverktyg' %></title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'warm': {
+              50: '#faf6f0',
+              100: '#f5eee3',
+              200: '#ead9c2',
+              300: '#dcc09a',
+              400: '#c9a06e',
+              500: '#bc8c50',
+              600: '#ae7341',
+              700: '#915c37',
+              800: '#774b32',
+              900: '#63402c',
+              950: '#352016',
+            }
+          },
+          fontFamily: {
+            sans: ['Nunito', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Nunito', sans-serif;
+    }
+    .feature-card {
+      transition: all 0.3s ease;
+    }
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    .icon-bg {
+      transition: all 0.3s ease;
+    }
+    .feature-card:hover .icon-bg {
+      background-color: #dcc09a;
+    }
+  </style>
+</head>
+<body class="bg-warm-50 text-warm-900 flex flex-col h-full">
+
+  <%- include('../partials/header') %>
+  <main class="flex-1">
+    <%- body %>
+  </main>
+  <%- include('../partials/footer') %>
+</body>
+</html>
+
+

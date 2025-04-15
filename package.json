@@ -1,0 +1,32 @@
+{
+  "name": "mindtracker",
+  "version": "1.0.0",
+  "description": "MindTracker - KBT-hjälpverktyg för personer med social ångest",
+  "type": "module",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon --inspect --env-file=.env src/server.js",
+    "lint": "npx eslint ./src || exit 0",
+    "lint:fix": "npx eslint ./src --fix || exit 0"
+  },
+  "author": "Jakob Hermansson",
+  "license": "ISC",
+  "private": true,
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-ejs-layouts": "^2.5.1",
+    "express-session": "^1.17.3",
+    "mongoose": "^7.0.3"
+  },
+  "devDependencies": {
+    "eslint": "^8.38.0",
+    "eslint-config-standard": "^17.0.0",
+    "nodemon": "^2.0.22"
+  }
+}
