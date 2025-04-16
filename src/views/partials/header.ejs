@@ -1,4 +1,4 @@
-<header class="bg-white shadow-sm border-b border-warm-200">
+<header class="bg-warm-50 shadow-sm border-b border-warm-200">
   <div class="container mx-auto px-4 py-4">
     <div class="flex justify-between items-center">
       <div class="flex items-center">
@@ -6,8 +6,15 @@
       </div>
       <nav>
         <ul class="flex space-x-6">
-          <li><a href="/" class="text-warm-700 hover:text-warm-900 font-semibold">Hem</a></li>
-          <li><a href="#" class="text-warm-500 hover:text-warm-700">Om</a></li>
+          <li><a href="<%= baseURL %>" class="text-warm-700 hover:text-warm-900 font-semibold">Hem</a></li>
+          <% if (user) { %>
+            <li><a href="<%= baseURL %>exposures" class="text-warm-500 hover:text-warm-700">Exponeringsövningar</a></li>
+            <li><a href="<%= baseURL %>thoughts" class="text-warm-500 hover:text-warm-700">Tankeutmanare</a></li>
+            <li><a href="<%= baseURL %>auth/logout" class="text-warm-500 hover:text-warm-700">Logga ut</a></li>
+          <% } else { %>
+            <li><a href="<%= baseURL %>auth/login" class="text-warm-500 hover:text-warm-700">Logga in</a></li>
+            <li><a href="<%= baseURL %>auth/register" class="text-warm-500 hover:text-warm-700">Registrera</a></li>
+          <% } %>
         </ul>
       </nav>
     </div>

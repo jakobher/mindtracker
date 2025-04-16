@@ -1,0 +1,7 @@
+<% if (typeof flash !== 'undefined') { %>
+    <div class="mb-6">
+      <div class="p-4 rounded-lg <%= flash.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
+        <%= flash.message %>
+      </div>
+    </div>
+  <% } %>
