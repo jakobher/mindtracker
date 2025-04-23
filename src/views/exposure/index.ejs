@@ -1,0 +1,18 @@
+<div class="max-w-6xl mx-auto px-4 py-12">
+    <div class="bg-white rounded-xl shadow-md border border-warm-200 p-8 mb-6">
+      <h1 class="text-2xl font-bold mb-3 text-warm-800">Exponeringsövningar</h1>
+      <p class="text-warm-600">Här kan du hantera dina exponeringsövningar.</p>
+    </div>
+  
+    <% if (exposures && exposures.length > 0) { %>
+      <!-- Lista övningar här senare -->
+      <p>Du har <%= exposures.length %> exponeringsövningar.</p>
+    <% } else { %>
+      <div class="text-center p-8 bg-white rounded-xl shadow-md border border-warm-200">
+        <p class="text-warm-600 mb-4">Du har inga exponeringsövningar ännu.</p>
+        <a href="<%= baseURL %>exposures/new" class="bg-warm-600 hover:bg-warm-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300">
+          Skapa din första övning
+        </a>
+      </div>
+    <% } %>
+  </div>
