@@ -12,6 +12,7 @@ export class ExposureController {
   // Displays the page for creating an exposure hierarchy.
   async index (req, res, next) {
     try {
+
       // Get the users exposure-exercises from the database
       const exposures = await Exposure.find({ user: req.session.user.id })
 
@@ -61,5 +62,49 @@ export class ExposureController {
   }
   }
 
+  // Show exposure exercise
+  async show(req, res, next) {
+    try {
+      // Get ID 
+      console.log('Show method called with ID:', req.params.id);
+      console.log('User in session:', req.session.user);
 
+          // Kontrollera om användaren är inloggad
+    if (!req.session.user) {
+      req.session.flash = { 
+        type: 'danger', 
+        message: 'Du måste vara inloggad för att se denna sida.' 
+      };
+      return res.redirect('/auth/login');
+    }
+
+      const id = req.params.id
+
+      // Find the exercise in the database
+      const exposure = await Exposure.findOne({
+        _id: id,
+        user: req.session.user.id // Make sure exercise belongs to user
+      })
+
+      console.log('Found exposure:', exposure);
+
+      // If exercise could not be found, send error message
+      if (!exposure) {
+        req.session.flash = {
+          type: 'danger',
+          message: 'Exponeringsövningen hittades inte.'
+        }
+        return res.render('/exposures')
+      }
+
+      // Render details view with details data
+      res.render('exposure/show', {
+        title: exposure.title,
+        exposure
+      })
+    } catch (error) {
+      console.error('Error in show method:', error);
+      next(error)
+    }
+  }
 }
