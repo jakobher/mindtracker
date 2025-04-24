@@ -6,7 +6,9 @@
           <p class="text-warm-600">Detaljer för exponeringsövningen</p>
         </div>
         <div>
-          <a href="<%= baseURL %>exposures" class="text-warm-600 hover:text-warm-800 font-medium">Tillbaka till lista</a>
+          <a href="<%= baseURL %>exposures" class="bg-warm-100 hover:bg-warm-200 text-warm-800 font-medium py-2 px-4 rounded-lg transition duration-300">
+            Tillbaka till lista
+          </a>
         </div>
       </div>
     </div>
@@ -43,6 +45,7 @@
                 <%= exposure.expectedAnxiety === 9 ? 'w-[90%]' : '' %>
                 <%= exposure.expectedAnxiety === 10 ? 'w-full' : '' %>
                 "></div>
+              </div>
               <span class="ml-3 text-warm-700 font-medium"><%= exposure.expectedAnxiety %>/10</span>
             </div>
           </div>
@@ -61,6 +64,30 @@
               <% } %>
             </p>
           </div>
+
+          <% if (exposure.completed && exposure.actualAnxiety !== undefined) { %>
+          <div>
+            <p class="text-sm text-warm-500 mb-1">Faktisk ångestnivå</p>
+            <div class="flex items-center">
+              <div class="relative w-32 h-4 bg-warm-100 rounded-full overflow-hidden">
+                <div class="absolute top-0 left-0 h-full rounded-full transition-all bg-gradient-to-r from-green-400 to-green-600
+                <%= exposure.actualAnxiety === 0 ? 'w-0' : '' %>
+                <%= exposure.actualAnxiety === 1 ? 'w-[10%]' : '' %>
+                <%= exposure.actualAnxiety === 2 ? 'w-[20%]' : '' %>
+                <%= exposure.actualAnxiety === 3 ? 'w-[30%]' : '' %>
+                <%= exposure.actualAnxiety === 4 ? 'w-[40%]' : '' %>
+                <%= exposure.actualAnxiety === 5 ? 'w-[50%]' : '' %>
+                <%= exposure.actualAnxiety === 6 ? 'w-[60%]' : '' %>
+                <%= exposure.actualAnxiety === 7 ? 'w-[70%]' : '' %>
+                <%= exposure.actualAnxiety === 8 ? 'w-[80%]' : '' %>
+                <%= exposure.actualAnxiety === 9 ? 'w-[90%]' : '' %>
+                <%= exposure.actualAnxiety === 10 ? 'w-full' : '' %>
+                "></div>
+              </div>
+              <span class="ml-3 text-warm-700 font-medium"><%= exposure.actualAnxiety %>/10</span>
+            </div>
+          </div>
+          <% } %>
         </div>
       </div>
     </div>

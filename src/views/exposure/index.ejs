@@ -47,6 +47,7 @@
                         <%= exposure.expectedAnxiety === 9 ? 'w-[90%]' : '' %>
                         <%= exposure.expectedAnxiety === 10 ? 'w-full' : '' %>
                         "></div>
+                      </div>
                       <span class="ml-2 text-sm text-warm-600"><%= exposure.expectedAnxiety %>/10</span>
                     </div>
                   </td>
@@ -58,8 +59,12 @@
                     <% } %>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <a href="<%= baseURL %>exposures/<%= exposure.id %>" class="text-warm-600 hover:text-warm-900 mr-3">Visa</a>
-                    <a href="<%= baseURL %>exposures/<%= exposure.id %>/edit" class="text-warm-600 hover:text-warm-900">Redigera</a>
+                    <% if (!exposure.completed) { %>
+                      <a href="<%= baseURL %>exposures/<%= exposure.id %>" class="bg-green-100 hover:bg-green-200 text-green-800 font-medium py-1 px-3 rounded-md transition duration-300 mr-2">Genomför</a>
+                    <% } else { %>
+                      <a href="<%= baseURL %>exposures/<%= exposure.id %>" class="bg-warm-100 hover:bg-warm-200 text-warm-800 font-medium py-1 px-3 rounded-md transition duration-300 mr-2">Detaljer</a>
+                    <% } %>
+                    <a href="<%= baseURL %>exposures/<%= exposure.id %>/edit" class="bg-warm-100 hover:bg-blue-200 text-wark-800 font-medium py-1 px-3 rounded-md transition duration-300">Redigera</a>
                   </td>
                 </tr>
               <% }); %>
