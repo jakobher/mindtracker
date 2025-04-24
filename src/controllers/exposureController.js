@@ -65,11 +65,7 @@ export class ExposureController {
   // Show exposure exercise
   async show(req, res, next) {
     try {
-      // Get ID 
-      console.log('Show method called with ID:', req.params.id);
-      console.log('User in session:', req.session.user);
-
-          // Kontrollera om användaren är inloggad
+      // Check if user is logged in
     if (!req.session.user) {
       req.session.flash = { 
         type: 'danger', 
@@ -86,8 +82,6 @@ export class ExposureController {
         user: req.session.user.id // Make sure exercise belongs to user
       })
 
-      console.log('Found exposure:', exposure);
-
       // If exercise could not be found, send error message
       if (!exposure) {
         req.session.flash = {
@@ -103,7 +97,41 @@ export class ExposureController {
         exposure
       })
     } catch (error) {
-      console.error('Error in show method:', error);
+      next(error)
+    }
+  }
+
+  async complete(req, res, next) {
+    try {
+      const id = req.params.id
+
+      // Find the exercise and ensure it belongs to the current user
+      const exposure = await Exposure.findOne({
+        _id: id,
+        user: req.session.user.id
+      })
+
+      if (!exposure) {
+        req.session.flash = {
+          type: 'danger',
+          message: 'Exponeringsövningen hittades inte.'
+        }
+        return res.redirect('/exposures')
+      }
+
+      // Update the exersice with completion data
+      exposure.completed = true
+      exposure.actualAnxiety = req.body.actualAnxiety
+
+      await exposure.save()
+
+      req.session.flash = {
+        type: 'success',
+        message: 'Exponeringsövningen har markerats som genomförd!'
+      }
+
+      res.redirect(`/exposures/${id}`)
+    } catch (error) {
       next(error)
     }
   }

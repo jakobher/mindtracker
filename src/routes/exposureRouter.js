@@ -20,3 +20,5 @@ router.get('/new', (req, res, next) => controller.new(req, res, next))
 router.post('/create', (req, res, next) => controller.create(req, res, next))
 router.get('/:id', (req, res, next) => controller.show(req, res, next))
 
+// Route to mark exercise as done
+router.post('/:id/complete', (req, res, next) => controller.complete(req, res, next))
