@@ -135,4 +135,71 @@ export class ExposureController {
       next(error)
     }
   }
+
+  async edit(req, res, next) {
+    try {
+      const id = req.params.id
+
+      // Find the exercise and ensure it belongs to the current user
+      const exposure = await Exposure.findOne({
+        _id: id,
+        user: req.session.user.id
+      })
+
+      if (!exposure) {
+        req.session.flash = {
+          type: 'danger',
+          message: 'Exponeringsövningen hittades inte.'
+        }
+        return res.redirect('/exposures')
+      }
+
+      res.render('exposure/edit', {
+        title: `Redigera ${exposure.title}`,
+        exposure
+      })
+    } catch (error) {
+    next(error)
+    }
+  }
+
+  async update(req, res, next) {
+    try {
+      const id = req.params.id
+
+      const exposure = await Exposure.findOne({
+        _id: id,
+        user: req.session.user.id
+      })
+
+      if (!exposure) {
+        req.session.flash = {
+      tyoe: 'danger',
+      message: 'Exponeringsövningen hittades inte.'
+    }
+    return res.redirect('/exposures')
+    }
+
+    // Update fields
+    exposure.title = req.body.title
+    exposure.location = req.body.location
+    exposure.date = req.body.date
+    exposure.expectedAnxiety = req.body.expectedAnxiety
+
+    await exposure.save()
+
+    req.session.flash = {
+      type: 'success',
+      message: 'Exponeringsövningen har uppdaterats!'
+    }
+
+    res.redirect(`/exposures/${id}`)
+  } catch (error) {
+    req.session.flash = {
+      type: 'danger',
+      message: error.message
+    }
+    res.redirect(`/exposures/${req.params.id}/edit`)
+  }
+}
 }

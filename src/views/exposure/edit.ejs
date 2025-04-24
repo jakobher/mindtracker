@@ -1,0 +1,83 @@
+<div class="max-w-2xl mx-auto px-4 py-12">
+    <div class="bg-white rounded-xl shadow-md border border-warm-200 p-8 mb-6">
+      <div class="flex justify-between items-start">
+        <div>
+          <h1 class="text-2xl font-bold mb-3 text-warm-800">Redigera exponeringsövning</h1>
+          <p class="text-warm-600">Uppdatera detaljerna för din exponeringsövning.</p>
+        </div>
+        <div>
+          <a href="<%= baseURL %>exposures/<%= exposure.id %>" class="text-warm-600 hover:text-warm-800 font-medium">Avbryt</a>
+        </div>
+      </div>
+    </div>
+  
+    <div class="bg-white rounded-xl shadow-md border border-warm-200 overflow-hidden">
+      <form action="<%= baseURL %>exposures/<%= exposure.id %>/update" method="POST" class="p-6">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        
+        <div class="mb-4">
+          <label for="title" class="block text-warm-700 font-medium mb-2">Titel</label>
+          <input 
+            type="text" 
+            id="title" 
+            name="title" 
+            value="<%= exposure.title %>"
+            class="w-full px-4 py-2 border border-warm-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-warm-400"
+            required 
+            autofocus
+          >
+        </div>
+        
+        <div class="mb-4">
+          <label for="location" class="block text-warm-700 font-medium mb-2">Plats</label>
+          <input 
+            type="text" 
+            id="location" 
+            name="location" 
+            value="<%= exposure.location %>"
+            class="w-full px-4 py-2 border border-warm-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-warm-400"
+            required
+          >
+        </div>
+        
+        <div class="mb-4">
+          <label for="date" class="block text-warm-700 font-medium mb-2">Datum</label>
+          <input 
+            type="date" 
+            id="date" 
+            name="date" 
+            value="<%= exposure.date.toISOString().split('T')[0] %>"
+            class="w-full px-4 py-2 border border-warm-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-warm-400"
+            required
+          >
+        </div>
+        
+        <div class="mb-6">
+          <label for="expectedAnxiety" class="block text-warm-700 font-medium mb-2">Förväntad ångestnivå (0-10)</label>
+          <div class="flex items-center">
+            <input 
+              type="range" 
+              id="expectedAnxiety" 
+              name="expectedAnxiety" 
+              min="0" 
+              max="10" 
+              step="1" 
+              value="<%= exposure.expectedAnxiety %>"
+              class="w-full h-2 bg-warm-200 rounded-lg appearance-none cursor-pointer"
+              oninput="anxietyValue.textContent = this.value"
+            >
+            <span id="anxietyValue" class="ml-3 text-warm-700 font-medium"><%= exposure.expectedAnxiety %></span>
+          </div>
+        </div>
+        
+        <div class="flex items-center justify-between">
+          <button 
+            type="submit" 
+            class="bg-warm-600 hover:bg-warm-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300"
+          >
+            Spara ändringar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
