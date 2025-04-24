@@ -25,3 +25,4 @@ router.post('/:id/complete', (req, res, next) => controller.complete(req, res, n
 
 router.get('/:id/edit', (req, res, next) => controller.edit(req, res, next))
 router.post('/:id/update', (req, res, next) => controller.update(req, res, next))
+router.post('/:id/delete', (req, res, next) => controller.delete(req, res, next))

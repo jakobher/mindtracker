@@ -201,5 +201,33 @@ export class ExposureController {
     }
     res.redirect(`/exposures/${req.params.id}/edit`)
   }
-}
+  }
+
+  // Delete an exposure exercise
+  async delete(req, res, next) {
+    try {
+      const id = req.params.id
+
+      const result = await Exposure.deleteOne({
+        _id: id,
+        user: req.session.user.id
+      })
+
+      if (result.deletedCound === 0) {
+        req.session.flash = {
+          type: 'danger',
+          message: 'Exponeringsövningen hittades inte eller kunde inte tas bort.'
+        }
+      } else {
+        req.session.flash = {
+          type: 'success',
+          message: 'Exponeringsövningen har tagits bort!'
+        }
+      }
+
+      res.redirect('/exposures')
+    } catch (error) {
+      next(error)
+    }
+  }
 }
