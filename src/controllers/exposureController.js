@@ -65,22 +65,10 @@ export class ExposureController {
   // Show exposure exercise
   async show(req, res, next) {
     try {
-      // Check if user is logged in
-    if (!req.session.user) {
-      req.session.flash = { 
-        type: 'danger', 
-        message: 'Du måste vara inloggad för att se denna sida.' 
-      };
-      return res.redirect('/auth/login');
-    }
 
       const id = req.params.id
 
-      // Find the exercise in the database
-      const exposure = await Exposure.findOne({
-        _id: id,
-        user: req.session.user.id // Make sure exercise belongs to user
-      })
+      const exposure = await this.findUserExposure(id, req.session.user.id)
 
       // If exercise could not be found, send error message
       if (!exposure) {
@@ -105,11 +93,7 @@ export class ExposureController {
     try {
       const id = req.params.id
 
-      // Find the exercise and ensure it belongs to the current user
-      const exposure = await Exposure.findOne({
-        _id: id,
-        user: req.session.user.id
-      })
+      const exposure = await this.findUserExposure(id, req.session.user.id)
 
       if (!exposure) {
         req.session.flash = {
@@ -140,11 +124,7 @@ export class ExposureController {
     try {
       const id = req.params.id
 
-      // Find the exercise and ensure it belongs to the current user
-      const exposure = await Exposure.findOne({
-        _id: id,
-        user: req.session.user.id
-      })
+      const exposure = await this.findUserExposure(id, req.session.user.id)
 
       if (!exposure) {
         req.session.flash = {
@@ -167,14 +147,11 @@ export class ExposureController {
     try {
       const id = req.params.id
 
-      const exposure = await Exposure.findOne({
-        _id: id,
-        user: req.session.user.id
-      })
+      const exposure = await this.findUserExposure(id, req.session.user.id)
 
       if (!exposure) {
         req.session.flash = {
-      tyoe: 'danger',
+      type: 'danger',
       message: 'Exponeringsövningen hittades inte.'
     }
     return res.redirect('/exposures')
@@ -203,31 +180,37 @@ export class ExposureController {
   }
   }
 
-  // Delete an exposure exercise
-  async delete(req, res, next) {
-    try {
-      const id = req.params.id
-
-      const result = await Exposure.deleteOne({
-        _id: id,
-        user: req.session.user.id
-      })
-
-      if (result.deletedCound === 0) {
-        req.session.flash = {
-          type: 'danger',
-          message: 'Exponeringsövningen hittades inte eller kunde inte tas bort.'
-        }
-      } else {
-        req.session.flash = {
-          type: 'success',
-          message: 'Exponeringsövningen har tagits bort!'
-        }
-      }
-
-      res.redirect('/exposures')
-    } catch (error) {
-      next(error)
+// Delete an exposure exercise
+async delete(req, res, next) {
+  try {
+    const id = req.params.id;
+    const exposure = await this.findUserExposure(id, req.session.user.id);
+    
+    if (!exposure) {
+      req.session.flash = {
+        type: 'danger',
+        message: 'Exponeringsövningen hittades inte eller kunde inte tas bort.'
+      };
+    } else {
+      // Delete exercise when found
+      await exposure.deleteOne();
+      req.session.flash = {
+        type: 'success',
+        message: 'Exponeringsövningen har tagits bort!'
+      };
     }
+    
+    res.redirect('/exposures');
+  } catch (error) {
+    next(error);
+  }
+}
+
+  // Help method to find exercise 
+  async findUserExposure(exposureId, userId) {
+    return await Exposure.findOne({
+      _id: exposureId,
+      user: userId
+    })
   }
 }

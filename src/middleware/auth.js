@@ -6,6 +6,7 @@
 
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { Exposure } from '../models/ExposureModel.js'
 
 const directoryFullName = dirname(fileURLToPath(import.meta.url))
 
@@ -20,9 +21,11 @@ export const isAuthenticated = (req, res, next) => {
   if (req.session.user) {
     next()
   } else {
-    res
-      .status(404)
-      .sendFile(join(directoryFullName, '..', 'views', 'errors', '404.html'))
+    req.session.flash = {
+      type: 'danger',
+      message: 'Du måste vara inloggad för att se denna sida.'
+    }
+    res.redirect('/auth/login')
   }
 }
 
@@ -43,6 +46,28 @@ export const isOwner = async (req, res, next) => {
         .status(403)
         .sendFile(join(directoryFullName, '..', 'views', 'errors', '403.html'))
     }
+  } catch (error) {
+    next(error)
+  }
+}
+
+// Middleware för att ladda exponeringsövningen innan ägarskapsvalidering
+export const loadExposure = async (req, res, next) => {
+  try {
+    const id = req.params.id
+    const exposure = await Exposure.findById(id)
+    
+    if (!exposure) {
+      req.session.flash = {
+        type: 'danger',
+        message: 'Resursen kunde inte hittas.'
+      }
+      return res.redirect('/exposures')
+    }
+    
+    // Spara dokumentet i req.doc för användning i isOwner och controller
+    req.doc = exposure
+    next()
   } catch (error) {
     next(error)
   }

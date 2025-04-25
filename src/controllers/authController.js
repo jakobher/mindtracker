@@ -48,6 +48,14 @@ export class AuthController {
    */
   async registerPost (req, res, next) {
     try {
+      // Manual validation of password length before hashing
+      if(!req.body.password || req.body.password.length < 10) {
+        req.session.flash = {
+          type: 'danger',
+          message: 'Lösenordet måste vara minst 10 tecken långt.'
+        }
+        return res.redirect('./register')
+      }
       // Hash the password before storing it
       const hashedPassword = await hashPassword(req.body.password)
 
