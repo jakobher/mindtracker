@@ -6,7 +6,7 @@
  */
 
 import mongoose from 'mongoose'
-import { BASE_SCHEMA } from './baseSchema'
+import { BASE_SCHEMA } from './baseSchema.js'
 
 const schema = new mongoose.Schema({
   title: {

@@ -8,6 +8,7 @@ import express from 'express'
 import { router as homeRouter } from './homeRouter.js'
 import { router as authRouter } from './authRouter.js'
 import { router as exposureRouter } from './exposureRouter.js'
+import { router as exposureTemplateRouter } from './exposureTemplateRouter.js'
 
 export const router = express.Router()
 
@@ -15,6 +16,7 @@ export const router = express.Router()
 router.use('/', homeRouter)
 router.use('/auth', authRouter)
 router.use('/exposures', exposureRouter)
+router.use('/exposure-templates', exposureTemplateRouter)
 
 // Catch 404 and forward to error handler
 // router.use('*', (req, res, next) => {
