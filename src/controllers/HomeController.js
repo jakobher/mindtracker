@@ -18,7 +18,10 @@ export class HomeController {
      */
   async index (req, res, next) {
     try {
-      res.render('home/index', { title: 'Hem' })
+      res.render('home/index', {
+        title: 'Hem',
+        username: req.session.user?.username || null
+      })
     } catch (error) {
       next(error)
     }

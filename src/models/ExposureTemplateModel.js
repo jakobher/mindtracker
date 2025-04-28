@@ -18,11 +18,6 @@ const schema = new mongoose.Schema({
     type: String,
     required: true
   },
-  category: {
-    type: String,
-    required: true,
-    enum: ['Social interaktion', 'Telefonsamtal', 'Offentligt talande', 'Folksamlingar', 'Annat']
-  },
   difficultyLevel: {
     type: Number,
     required: true,

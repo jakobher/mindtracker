@@ -8,7 +8,8 @@
         <ul class="flex space-x-6">
           <li><a href="<%= baseURL %>" class="text-warm-700 hover:text-warm-900 font-semibold">Hem</a></li>
           <% if (user) { %>
-            <li><a href="<%= baseURL %>exposures" class="text-warm-500 hover:text-warm-700">Exponeringsövningar</a></li>
+            <li><a href="<%= baseURL %>exposure-templates" class="text-warm-500 hover:text-warm-700">Exponeringsstege</a></li>
+            <li><a href="<%= baseURL %>exposures" class="text-warm-500 hover:text-warm-700">Mina övningar</a></li>
             <li><a href="<%= baseURL %>thoughts" class="text-warm-500 hover:text-warm-700">Tankeutmanare</a></li>
             <li><a href="<%= baseURL %>auth/logout" class="text-warm-500 hover:text-warm-700">Logga ut</a></li>
           <% } else { %>

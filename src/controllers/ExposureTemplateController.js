@@ -46,7 +46,6 @@ export class ExposureTemplateController {
       const template = new ExposureTemplate({
         title: req.body.title,
         description: req.body.description,
-        category: req.body.category,
         difficultyLevel: req.body.difficultyLevel,
         user: req.session.user.id
       })

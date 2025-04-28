@@ -1,0 +1,81 @@
+
+<div class="max-w-2xl mx-auto px-4 py-12">
+    <div class="bg-white rounded-xl shadow-md border border-warm-200 p-8 mb-6">
+      <h1 class="text-2xl font-bold mb-3 text-warm-800">Skapa ny mall</h1>
+      <p class="text-warm-600">Skapa en mall för en exponeringsövning som du kan återanvända.</p>
+    </div>
+  
+    <div class="bg-white rounded-xl shadow-md border border-warm-200 overflow-hidden">
+      <form action="<%= baseURL %>exposure-templates/create" method="POST" class="p-6">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        
+        <div class="mb-4">
+          <label for="title" class="block text-warm-700 font-medium mb-2">Titel</label>
+          <input 
+            type="text" 
+            id="title" 
+            name="title" 
+            class="w-full px-4 py-2 border border-warm-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-warm-400"
+            required 
+            autofocus
+          >
+        </div>
+        
+        <div class="mb-4">
+          <label for="description" class="block text-warm-700 font-medium mb-2">Beskrivning</label>
+          <textarea 
+            id="description" 
+            name="description" 
+            rows="3" 
+            class="w-full px-4 py-2 border border-warm-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-warm-400"
+            required
+          ></textarea>
+        </div>
+        
+        <div class="mb-6">
+          <label for="difficultyLevel" class="block text-warm-700 font-medium mb-2">Svårighetsgrad (1-10)</label>
+          <div class="flex items-center">
+            <input 
+              type="range" 
+              id="difficultyLevel" 
+              name="difficultyLevel" 
+              min="1" 
+              max="10" 
+              step="1" 
+              value="5"
+              class="w-full h-2 bg-warm-200 rounded-lg appearance-none cursor-pointer"
+              oninput="difficultyValue.textContent = this.value"
+            >
+            <span id="difficultyValue" class="ml-3 text-warm-700 font-medium">5</span>
+          </div>
+        </div>
+
+        <div class="flex gap-2 mt-3">
+            <div class="flex-1 bg-warm-300 rounded px-3 py-2 text-warm-800 text-sm">
+              <div class="font-medium">1-4: Lätt nivå</div>
+              <div class="text-xs">Bra att börja med. Lägre ångestnivå.</div>
+            </div>
+            <div class="flex-1 bg-warm-500 rounded px-3 py-2 text-white text-sm">
+              <div class="font-medium">5-7: Medel nivå</div>
+              <div class="text-xs">Utmanande. Måttlig ångestnivå.</div>
+            </div>
+            <div class="flex-1 bg-warm-700 rounded px-3 py-2 text-white text-sm">
+              <div class="font-medium">8-10: Svår nivå</div>
+              <div class="text-xs">Mycket utmanande. Högre ångestnivå.</div>
+            </div>
+          </div>
+          <br>
+        
+        
+        <div class="flex items-center justify-between">
+          <button 
+            type="submit" 
+            class="bg-warm-600 hover:bg-warm-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300"
+          >
+            Spara mall
+          </button>
+          <a href="<%= baseURL %>exposure-templates" class="text-warm-600 hover:text-warm-800 font-medium">Avbryt</a>
+        </div>
+      </form>
+    </div>
+  </div>
