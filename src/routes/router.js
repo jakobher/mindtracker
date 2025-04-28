@@ -4,7 +4,7 @@
  * @author Jakob Hermansson
  */
 import express from 'express'
-import http from 'node:http'
+// import http from 'node:http'
 import { router as homeRouter } from './homeRouter.js'
 import { router as authRouter } from './authRouter.js'
 import { router as exposureRouter } from './exposureRouter.js'

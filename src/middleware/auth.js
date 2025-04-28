@@ -56,7 +56,7 @@ export const loadExposure = async (req, res, next) => {
   try {
     const id = req.params.id
     const exposure = await Exposure.findById(id)
-    
+
     if (!exposure) {
       req.session.flash = {
         type: 'danger',
@@ -64,7 +64,7 @@ export const loadExposure = async (req, res, next) => {
       }
       return res.redirect('/exposures')
     }
-    
+
     // Spara dokumentet i req.doc för användning i isOwner och controller
     req.doc = exposure
     next()
