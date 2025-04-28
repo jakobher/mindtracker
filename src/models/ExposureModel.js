@@ -36,6 +36,10 @@ const schema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  template: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'ExposureTemplate'
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
