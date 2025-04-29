@@ -120,6 +120,8 @@ typings/
 
 # dotenv environment variables file
 .env
+.env.*
+!.env.example
 .env.test
 .env*.local
 
