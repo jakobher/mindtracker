@@ -1,15 +1,23 @@
 <div class="max-w-6xl mx-auto px-4 py-8">
-    <div class="bg-white rounded-xl shadow-md border border-warm-200 p-4 sm:p-8 mb-6">
-      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 class="text-2xl font-bold mb-2 text-warm-800">Min exponeringsstege</h1>
-          <p class="text-warm-600">Hantera övningsmallar och skapa din personliga exponeringsstege.</p>
-        </div>
+  <div class="bg-white rounded-xl shadow-md border border-warm-200 p-4 sm:p-8 mb-6">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div>
+        <h1 class="text-2xl font-bold mb-2 text-warm-800">Min exponeringsstege</h1>
+        <p class="text-warm-600">Hantera övningsmallar och skapa din personliga exponeringsstege.</p>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <a href="<%= baseURL %>exposures" class="flex items-center text-warm-600 hover:text-warm-800 rounded-lg px-4 py-2 border border-warm-200 hover:bg-warm-50 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+          </svg>
+          Till mina övningar
+        </a>
         <a href="<%= baseURL %>exposure-templates/new" class="w-full sm:w-auto bg-warm-600 hover:bg-warm-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300 text-center">
           Lägg till ny mall
         </a>
       </div>
     </div>
+  </div>
   
     <% if (templates && templates.length > 0) { %>
       <!-- Difficulty level filter -->
@@ -177,3 +185,4 @@
       </div>
     <% } %>
   </div>
+</div>
