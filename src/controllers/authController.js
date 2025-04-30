@@ -108,28 +108,46 @@ export class AuthController {
    */
   async loginPost (req, res, next) {
     try {
-      const user = await User.findOne({ username: req.body.username })
+      // Trim whitespace and ensure input is defined
+      const username = (req.body.username || '').trim()
+      const password = (req.body.password || '').trim()
+
+      // Handle empty values
+      if (!username || !password) {
+        req.session.flash = { type: 'danger', message: 'Användarnamn och lösenord måste anges.' }
+        return res.redirect('./login')
+      }
+
+      // Find user and set to not be case sensitive
+      const user = await User.findOne({
+        username: { $regex: new RegExp(`^${username}$`, 'i') }
+      })
 
       if (!user) {
         req.session.flash = { type: 'danger', message: 'Ogiltigt användarnamn eller lösenord.' }
         return res.redirect('./login')
       }
 
-      // Check if the password is valid
-      const isPasswordValid = await bcrypt.compare(req.body.password, user.password)
+      // Check password
+      const isPasswordValid = await bcrypt.compare(password, user.password)
 
-      // If the password is invalid, redirect back to login page
+      // If password is valid
       if (!isPasswordValid) {
+        console.log(`Felaktigt lösenord för '${username}'`)
         req.session.flash = { type: 'danger', message: 'Ogiltigt användarnamn eller lösenord.' }
         return res.redirect('./login')
       }
 
-      // If the password is valid, store the user in session
-      req.session.user = user
+      // If ok, start session
+      req.session.user = {
+        id: user._id,
+        username: user.username
+      }
+
       req.session.flash = { type: 'success', message: 'Du är nu inloggad!' }
       res.redirect('/')
     } catch (error) {
-      req.session.flash = { type: 'danger', message: error.message }
+      req.session.flash = { type: 'danger', message: 'Ett systemfel inträffade. Försök igen senare.' }
       res.redirect('./login')
     }
   }
