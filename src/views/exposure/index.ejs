@@ -5,88 +5,147 @@
         <h1 class="text-2xl font-bold mb-2 text-warm-800">Exponeringsövningar</h1>
         <p class="text-warm-600">Hantera dina exponeringsövningar här.</p>
       </div>
-      <div class="flex gap-3">
-        <a href="<%= baseURL %>exposure-templates" class="flex items-center text-warm-600 hover:text-warm-800 rounded-lg px-4 py-2 border border-warm-200 hover:bg-warm-50 transition">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-          </svg>
-          Till min stege
-        </a>
-        <a href="<%= baseURL %>exposures/new" class="bg-warm-600 hover:bg-warm-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300">
-          Lägg till ny övning
-        </a>
+      <a href="<%= baseURL %>exposures/new" class="bg-warm-600 hover:bg-warm-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300">
+        Lägg till ny övning
+      </a>
+    </div>
+  </div>
+
+  <!-- Filter Buttons -->
+  <div class="bg-white rounded-xl shadow-md border border-warm-200 p-4 mb-6">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+      <h2 class="text-lg font-semibold mb-2 sm:mb-0 text-warm-800">Filtrera övningar</h2>
+      <div class="flex gap-2">
+        <button id="filter-all" class="px-4 py-2 bg-warm-600 text-white rounded-lg hover:bg-warm-700 transition">Alla</button>
+        <button id="filter-planned" class="px-4 py-2 bg-warm-100 text-warm-800 rounded-lg hover:bg-warm-200 transition">Planerade</button>
+        <button id="filter-completed" class="px-4 py-2 bg-warm-100 text-warm-800 rounded-lg hover:bg-warm-200 transition">Genomförda</button>
       </div>
     </div>
   </div>
-  
-    <% if (exposures && exposures.length > 0) { %>
-      <div class="bg-white rounded-xl shadow-md border border-warm-200 overflow-hidden">
-        <div class="overflow-x-auto">
-          <table class="min-w-full divide-y divide-warm-200">
-            <thead class="bg-warm-50">
-              <tr>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-warm-700 uppercase tracking-wider">Titel</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-warm-700 uppercase tracking-wider">Plats</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-warm-700 uppercase tracking-wider">Datum</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-warm-700 uppercase tracking-wider">Ångestnivå</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-warm-700 uppercase tracking-wider">Status</th>
-                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-warm-700 uppercase tracking-wider">Åtgärder</th>
-              </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-warm-100">
-              <% exposures.forEach(exposure => { %>
-                <tr>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-warm-800"><%= exposure.title %></td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-warm-600"><%= exposure.location %></td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-warm-600"><%= new Date(exposure.date).toLocaleDateString() %></td>
-                  <td class="px-6 py-4 whitespace-nowrap">
+
+  <% if (exposures && exposures.length > 0) { %>
+    <div class="bg-white rounded-xl shadow-md border border-warm-200 overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-warm-200">
+          <thead class="bg-warm-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-warm-700 uppercase tracking-wider">Titel</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-warm-700 uppercase tracking-wider">Plats</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-warm-700 uppercase tracking-wider">Datum</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-warm-700 uppercase tracking-wider">Ångestnivå/Kommentar</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-warm-700 uppercase tracking-wider">Status</th>
+              <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-warm-700 uppercase tracking-wider">Åtgärder</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-warm-100">
+            <% exposures.forEach(exposure => { %>
+              <tr class="exposure-row <%= exposure.completed ? 'completed-row' : 'planned-row' %>">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-warm-800"><%= exposure.title %></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-warm-600"><%= exposure.location %></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-warm-600"><%= new Date(exposure.date).toLocaleDateString() %></td>
+                
+                <!-- Visa antingen ångestnivå eller kommentar beroende på status -->
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-warm-600">
+                  <% if (!exposure.completed) { %>
                     <div class="flex items-center">
                       <div class="relative w-24 h-3 bg-warm-100 rounded-full overflow-hidden">
-                        <div class="absolute top-0 left-0 h-full rounded-full transition-all bg-gradient-to-r from-warm-400 to-warm-600
-                        <%= exposure.expectedAnxiety === 0 ? 'w-0' : '' %>
-                        <%= exposure.expectedAnxiety === 1 ? 'w-[10%]' : '' %>
-                        <%= exposure.expectedAnxiety === 2 ? 'w-[20%]' : '' %>
-                        <%= exposure.expectedAnxiety === 3 ? 'w-[30%]' : '' %>
-                        <%= exposure.expectedAnxiety === 4 ? 'w-[40%]' : '' %>
-                        <%= exposure.expectedAnxiety === 5 ? 'w-[50%]' : '' %>
-                        <%= exposure.expectedAnxiety === 6 ? 'w-[60%]' : '' %>
-                        <%= exposure.expectedAnxiety === 7 ? 'w-[70%]' : '' %>
-                        <%= exposure.expectedAnxiety === 8 ? 'w-[80%]' : '' %>
-                        <%= exposure.expectedAnxiety === 9 ? 'w-[90%]' : '' %>
-                        <%= exposure.expectedAnxiety === 10 ? 'w-full' : '' %>
-                        "></div>
+                        <div class="absolute top-0 left-0 h-full rounded-full transition-all bg-gradient-to-r from-warm-400 to-warm-600"
+                          style="width: <%= exposure.expectedAnxiety * 10 %>%"></div>
                       </div>
                       <span class="ml-2 text-sm text-warm-600"><%= exposure.expectedAnxiety %>/10</span>
                     </div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <% if (exposure.completed) { %>
-                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Genomförd</span>
-                    <% } else { %>
-                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-warm-100 text-warm-800">Planerad</span>
-                    <% } %>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <% if (!exposure.completed) { %>
-                      <a href="<%= baseURL %>exposures/<%= exposure.id %>" class="bg-green-100 hover:bg-green-200 text-green-800 font-medium py-1 px-3 rounded-md transition duration-300 mr-2">Genomför</a>
-                    <% } else { %>
-                      <a href="<%= baseURL %>exposures/<%= exposure.id %>" class="bg-warm-100 hover:bg-warm-200 text-warm-800 font-medium py-1 px-3 rounded-md transition duration-300 mr-2">Detaljer</a>
-                    <% } %>
-                    <a href="<%= baseURL %>exposures/<%= exposure.id %>/edit" class="bg-warm-100 hover:bg-blue-200 text-wark-800 font-medium py-1 px-3 rounded-md transition duration-300">Redigera</a>
-                  </td>
-                </tr>
-              <% }); %>
-            </tbody>
-          </table>
-        </div>
+                  <% } else if (exposure.comment) { %>
+                    <%= exposure.comment %>
+                  <% } else { %>
+                    <span class="text-warm-400">Ingen kommentar</span>
+                  <% } %>
+                </td>
+                
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <% if (exposure.completed) { %>
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Genomförd</span>
+                  <% } else { %>
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-warm-100 text-warm-800">Planerad</span>
+                  <% } %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <% if (!exposure.completed) { %>
+                    <a href="<%= baseURL %>exposures/<%= exposure.id %>" class="bg-green-100 hover:bg-green-200 text-green-800 font-medium py-1 px-3 rounded-md transition duration-300 mr-2">Genomför</a>
+                  <% } else { %>
+                    <a href="<%= baseURL %>exposures/<%= exposure.id %>" class="bg-warm-100 hover:bg-warm-200 text-warm-800 font-medium py-1 px-3 rounded-md transition duration-300 mr-2">Detaljer</a>
+                  <% } %>
+                  <a href="<%= baseURL %>exposures/<%= exposure.id %>/edit" class="bg-warm-100 hover:bg-blue-200 text-warm-800 font-medium py-1 px-3 rounded-md transition duration-300">Redigera</a>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
       </div>
-    <% } else { %>
-      <div class="text-center p-8 bg-white rounded-xl shadow-md border border-warm-200">
-        <p class="text-warm-600 mb-4">Du har inga exponeringsövningar ännu.</p>
-        <a href="<%= baseURL %>exposures/new" class="bg-warm-600 hover:bg-warm-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300">
-          Skapa din första övning
-        </a>
-      </div>
-    <% } %>
-  </div>
+    </div>
+  <% } else { %>
+    <div class="text-center p-8 bg-white rounded-xl shadow-md border border-warm-200">
+      <p class="text-warm-600 mb-4">Du har inga exponeringsövningar ännu.</p>
+      <a href="<%= baseURL %>exposures/new" class="bg-warm-600 hover:bg-warm-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300">
+        Skapa din första övning
+      </a>
+    </div>
+  <% } %>
 </div>
+
+<!-- JavaScript for filtering -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterAll = document.getElementById('filter-all');
+    const filterPlanned = document.getElementById('filter-planned');
+    const filterCompleted = document.getElementById('filter-completed');
+    
+    const allRows = document.querySelectorAll('.exposure-row');
+    const plannedRows = document.querySelectorAll('.planned-row');
+    const completedRows = document.querySelectorAll('.completed-row');
+    
+    // Default state: show all
+    showAll();
+    
+    // Filter buttons event listeners
+    filterAll.addEventListener('click', showAll);
+    filterPlanned.addEventListener('click', showPlanned);
+    filterCompleted.addEventListener('click', showCompleted);
+    
+    function showAll() {
+      updateButtonStyles('all');
+      allRows.forEach(row => row.style.display = '');
+    }
+    
+    function showPlanned() {
+      updateButtonStyles('planned');
+      allRows.forEach(row => row.style.display = 'none');
+      plannedRows.forEach(row => row.style.display = '');
+    }
+    
+    function showCompleted() {
+      updateButtonStyles('completed');
+      allRows.forEach(row => row.style.display = 'none');
+      completedRows.forEach(row => row.style.display = '');
+    }
+    
+    function updateButtonStyles(active) {
+      // Reset all buttons
+      [filterAll, filterPlanned, filterCompleted].forEach(btn => {
+        btn.classList.remove('bg-warm-600', 'text-white');
+        btn.classList.add('bg-warm-100', 'text-warm-800');
+      });
+      
+      // Set active button
+      if (active === 'all') {
+        filterAll.classList.remove('bg-warm-100', 'text-warm-800');
+        filterAll.classList.add('bg-warm-600', 'text-white');
+      } else if (active === 'planned') {
+        filterPlanned.classList.remove('bg-warm-100', 'text-warm-800');
+        filterPlanned.classList.add('bg-warm-600', 'text-white');
+      } else if (active === 'completed') {
+        filterCompleted.classList.remove('bg-warm-100', 'text-warm-800');
+        filterCompleted.classList.add('bg-warm-600', 'text-white');
+      }
+    }
+  });
+</script>

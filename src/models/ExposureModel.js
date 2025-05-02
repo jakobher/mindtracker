@@ -32,6 +32,10 @@ const schema = new mongoose.Schema({
     min: 0,
     max: 10
   },
+  comment: {
+    type: String,
+    trim: true
+  },
   completed: {
     type: Boolean,
     default: false
