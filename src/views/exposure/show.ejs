@@ -1,145 +1,100 @@
 <div class="max-w-4xl mx-auto px-4 py-12">
-    <div class="bg-white rounded-xl shadow-md border border-warm-200 p-8 mb-6">
-      <div class="flex justify-between items-start">
-        <div>
-          <h1 class="text-2xl font-bold mb-2 text-warm-800"><%= exposure.title %></h1>
-          <p class="text-warm-600">Detaljer för exponeringsövningen</p>
-        </div>
-        <div>
-          <a href="<%= baseURL %>exposures" class="bg-warm-100 hover:bg-warm-200 text-warm-800 font-medium py-2 px-4 rounded-lg transition duration-300">
-            Tillbaka till lista
-          </a>
-        </div>
+  <div class="bg-white rounded-xl shadow-md border border-warm-200 p-8 mb-6">
+    <div class="flex justify-between items-start">
+      <div>
+        <h1 class="text-2xl font-bold mb-2 text-warm-800"><%= template.title %></h1>
+        <p class="text-warm-600">Malldetaljer och planerade övningar</p>
       </div>
-    </div>
-    
-    <div class="bg-white rounded-xl shadow-md border border-warm-200 overflow-hidden mb-6">
-      <div class="p-6">
-        <h2 class="text-xl font-semibold mb-4 text-warm-800">Övningsinformation</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <p class="text-sm text-warm-500 mb-1">Plats</p>
-            <p class="text-warm-800"><%= exposure.location %></p>
-          </div>
-          
-          <div>
-            <p class="text-sm text-warm-500 mb-1">Datum</p>
-            <p class="text-warm-800"><%= new Date(exposure.date).toLocaleDateString() %></p>
-          </div>
-          
-          <div>
-            <p class="text-sm text-warm-500 mb-1">Förväntad ångestnivå</p>
-            <div class="flex items-center">
-              <div class="relative w-32 h-4 bg-warm-100 rounded-full overflow-hidden">
-                <div class="absolute top-0 left-0 h-full rounded-full transition-all bg-gradient-to-r from-warm-400 to-warm-600
-                <%= exposure.expectedAnxiety === 0 ? 'w-0' : '' %>
-                <%= exposure.expectedAnxiety === 1 ? 'w-[10%]' : '' %>
-                <%= exposure.expectedAnxiety === 2 ? 'w-[20%]' : '' %>
-                <%= exposure.expectedAnxiety === 3 ? 'w-[30%]' : '' %>
-                <%= exposure.expectedAnxiety === 4 ? 'w-[40%]' : '' %>
-                <%= exposure.expectedAnxiety === 5 ? 'w-[50%]' : '' %>
-                <%= exposure.expectedAnxiety === 6 ? 'w-[60%]' : '' %>
-                <%= exposure.expectedAnxiety === 7 ? 'w-[70%]' : '' %>
-                <%= exposure.expectedAnxiety === 8 ? 'w-[80%]' : '' %>
-                <%= exposure.expectedAnxiety === 9 ? 'w-[90%]' : '' %>
-                <%= exposure.expectedAnxiety === 10 ? 'w-full' : '' %>
-                "></div>
-              </div>
-              <span class="ml-3 text-warm-700 font-medium"><%= exposure.expectedAnxiety %>/10</span>
-            </div>
-          </div>
-          
-          <div>
-            <p class="text-sm text-warm-500 mb-1">Status</p>
-            <p class="text-warm-800">
-              <% if (exposure.completed) { %>
-                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                  Genomförd
-                </span>
-              <% } else { %>
-                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-warm-100 text-warm-800">
-                  Planerad
-                </span>
-              <% } %>
-            </p>
-          </div>
-
-          <% if (exposure.completed && exposure.actualAnxiety !== undefined) { %>
-          <div>
-            <p class="text-sm text-warm-500 mb-1">Faktisk ångestnivå</p>
-            <div class="flex items-center">
-              <div class="relative w-32 h-4 bg-warm-100 rounded-full overflow-hidden">
-                <div class="absolute top-0 left-0 h-full rounded-full transition-all bg-gradient-to-r from-green-400 to-green-600
-                <%= exposure.actualAnxiety === 0 ? 'w-0' : '' %>
-                <%= exposure.actualAnxiety === 1 ? 'w-[10%]' : '' %>
-                <%= exposure.actualAnxiety === 2 ? 'w-[20%]' : '' %>
-                <%= exposure.actualAnxiety === 3 ? 'w-[30%]' : '' %>
-                <%= exposure.actualAnxiety === 4 ? 'w-[40%]' : '' %>
-                <%= exposure.actualAnxiety === 5 ? 'w-[50%]' : '' %>
-                <%= exposure.actualAnxiety === 6 ? 'w-[60%]' : '' %>
-                <%= exposure.actualAnxiety === 7 ? 'w-[70%]' : '' %>
-                <%= exposure.actualAnxiety === 8 ? 'w-[80%]' : '' %>
-                <%= exposure.actualAnxiety === 9 ? 'w-[90%]' : '' %>
-                <%= exposure.actualAnxiety === 10 ? 'w-full' : '' %>
-                "></div>
-              </div>
-              <span class="ml-3 text-warm-700 font-medium"><%= exposure.actualAnxiety %>/10</span>
-            </div>
-          </div>
-          <% } %>
-        </div>
+      <div class="flex space-x-2">
+        <a href="<%= baseURL %>exposure-templates/<%= template.id %>/create-exposure" class="bg-warm-600 hover:bg-warm-700 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
+          Planera övning
+        </a>
+        <a href="<%= baseURL %>exposure-templates" class="bg-warm-100 hover:bg-warm-200 text-warm-800 font-medium py-2 px-4 rounded-lg transition duration-300">
+          Tillbaka
+        </a>
       </div>
-    </div>
-    
-    <% if (!exposure.completed) { %>
-      <div class="bg-white rounded-xl shadow-md border border-warm-200 overflow-hidden">
-        <div class="p-6">
-          <h2 class="text-xl font-semibold mb-4 text-warm-800">Markera som genomförd</h2>
-          <p class="text-warm-600 mb-4">När du har genomfört denna övning, markera den som slutförd och ange din faktiska ångestnivå.</p>
-          
-          <form action="<%= baseURL %>exposures/<%= exposure.id %>/complete" method="POST">
-            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            
-            <div class="mb-4">
-              <label for="actualAnxiety" class="block text-warm-700 font-medium mb-2">Faktisk ångestnivå (0-10)</label>
-              <div class="flex items-center">
-                <input 
-                  type="range" 
-                  id="actualAnxiety" 
-                  name="actualAnxiety" 
-                  min="0" 
-                  max="10" 
-                  step="1" 
-                  value="5"
-                  class="w-full h-2 bg-warm-200 rounded-lg appearance-none cursor-pointer"
-                  oninput="anxietyValue.textContent = this.value"
-                >
-                <span id="anxietyValue" class="ml-3 text-warm-700 font-medium">5</span>
-              </div>
-            </div>
-            
-            <button 
-              type="submit" 
-              class="bg-warm-600 hover:bg-warm-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300"
-            >
-              Markera som genomförd
-            </button>
-          </form>
-        </div>
-      </div>
-    <% } %>
-    
-    <div class="flex justify-between mt-6">
-      <a href="<%= baseURL %>exposures/<%= exposure.id %>/edit" class="bg-warm-100 hover:bg-warm-200 text-warm-800 font-medium py-2 px-6 rounded-lg transition duration-300">
-        Redigera
-      </a>
-      
-      <form action="<%= baseURL %>exposures/<%= exposure.id %>/delete" method="POST" onsubmit="return confirm('Är du säker på att du vill ta bort denna övning?');">
-        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <button type="submit" class="bg-red-100 hover:bg-red-200 text-red-800 font-medium py-2 px-6 rounded-lg transition duration-300">
-          Ta bort
-        </button>
-      </form>
     </div>
   </div>
+  
+  <div class="bg-white rounded-xl shadow-md border border-warm-200 overflow-hidden mb-6">
+    <div class="p-6">
+      <h2 class="text-xl font-semibold mb-4 text-warm-800">Mallinformation</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div>
+          <p class="text-sm text-warm-500 mb-1">Svårighetsgrad</p>
+          <div class="flex items-center">
+            <div class="relative w-32 h-4 bg-warm-100 rounded-full overflow-hidden">
+              <div class="absolute top-0 left-0 h-full rounded-full transition-all bg-gradient-to-r from-warm-400 to-warm-600"
+                   style="width: <%= template.difficultyLevel * 10 %>%"></div>
+            </div>
+            <span class="ml-3 text-warm-700 font-medium"><%= template.difficultyLevel %>/10</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mb-6">
+        <p class="text-sm text-warm-500 mb-1">Beskrivning</p>
+        <p class="text-warm-800 bg-warm-50 p-3 rounded-lg"><%= template.description %></p>
+      </div>
+      
+      <div class="flex justify-between mt-4">
+        <a href="<%= baseURL %>exposure-templates/<%= template.id %>/edit" class="bg-warm-100 hover:bg-warm-200 text-warm-800 font-medium py-2 px-4 rounded-lg transition duration-300">
+          Redigera mall
+        </a>
+        <form action="<%= baseURL %>exposure-templates/<%= template.id %>/delete" method="POST" onsubmit="return confirm('Är du säker på att du vill ta bort denna mall? Alla övningar baserade på denna mall kommer att finnas kvar.');">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <button type="submit" class="bg-red-100 hover:bg-red-200 text-red-800 font-medium py-2 px-4 rounded-lg transition duration-300">
+            Ta bort
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <% if (exposures && exposures.length > 0) { %>
+    <div class="bg-white rounded-xl shadow-md border border-warm-200 overflow-hidden">
+      <div class="p-6">
+        <h2 class="text-xl font-semibold mb-4 text-warm-800">Övningar baserade på denna mall</h2>
+        
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-warm-200">
+            <thead class="bg-warm-50">
+              <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-warm-700 uppercase tracking-wider">Titel</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-warm-700 uppercase tracking-wider">Datum</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-warm-700 uppercase tracking-wider">Status</th>
+                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-warm-700 uppercase tracking-wider">Åtgärder</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-warm-100">
+              <% exposures.forEach(exposure => { %>
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-warm-800"><%= exposure.title %></td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-warm-600"><%= new Date(exposure.date).toLocaleDateString() %></td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <% if (exposure.completed) { %>
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Genomförd</span>
+                    <% } else { %>
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-warm-100 text-warm-800">Planerad</span>
+                    <% } %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <a href="<%= baseURL %>exposures/<%= exposure.id %>" class="text-warm-600 hover:text-warm-900">Visa</a>
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  <% } else { %>
+    <div class="bg-warm-50 rounded-xl shadow-md border border-warm-200 p-6 text-center">
+      <p class="text-warm-600 mb-4">Det finns inga övningar baserade på denna mall ännu.</p>
+      <a href="<%= baseURL %>exposure-templates/<%= template.id %>/create-exposure" class="inline-block bg-warm-600 hover:bg-warm-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300">
+        Skapa den första övningen
+      </a>
+    </div>
+  <% } %>
+</div>

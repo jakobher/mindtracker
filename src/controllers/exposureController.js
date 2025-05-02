@@ -60,6 +60,34 @@ export class ExposureController {
     }
   }
 
+  async createFromTemplate (req, res, next) {
+    try {
+      const exposure = new Exposure({
+        title: req.body.title,
+        location: req.body.location,
+        date: req.body.date,
+        expectedAnxiety: req.body.expectedAnxiety,
+        template: req.body.templateId,
+        user: req.session.user.id
+      })
+
+      await exposure.save()
+
+      req.session.flash = {
+        type: 'success',
+        message: 'Exponeringsövningen har skapats från mallen!'
+      }
+
+      res.redirect('/exposures')
+    } catch (error) {
+      req.session.flash = {
+        type: 'danger',
+        message: error.message
+      }
+      res.redirect('/exposure-templates')
+    }
+  }
+
   // Show exposure exercise
   async show (req, res, next) {
     try {
@@ -103,6 +131,7 @@ export class ExposureController {
       // Update the exersice with completion data
       exposure.completed = true
       exposure.actualAnxiety = req.body.actualAnxiety
+      exposure.comment = req.body.comment
 
       await exposure.save()
 

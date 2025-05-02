@@ -20,6 +20,9 @@ router.get('/new', (req, res, next) => controller.new(req, res, next))
 router.post('/create', (req, res, next) => controller.create(req, res, next))
 router.get('/:id', isAuthenticated, loadExposure, isOwner, (req, res, next) => controller.show(req, res, next))
 
+// Route to create exposure from template
+router.post('/create-from-template', (req, res, next) => controller.createFromTemplate(req, res, next))
+
 // Route to mark exercise as done
 router.post('/:id/complete', isAuthenticated, loadExposure, isOwner, (req, res, next) => controller.complete(req, res, next))
 

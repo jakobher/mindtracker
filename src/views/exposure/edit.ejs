@@ -1,83 +1,85 @@
 <div class="max-w-2xl mx-auto px-4 py-12">
-    <div class="bg-white rounded-xl shadow-md border border-warm-200 p-8 mb-6">
-      <div class="flex justify-between items-start">
-        <div>
-          <h1 class="text-2xl font-bold mb-3 text-warm-800">Redigera exponeringsövning</h1>
-          <p class="text-warm-600">Uppdatera detaljerna för din exponeringsövning.</p>
-        </div>
-        <div>
-          <a href="<%= baseURL %>exposures" class="text-warm-600 hover:text-warm-800 font-medium">Avbryt</a>
-        </div>
+  <div class="bg-white rounded-xl shadow-md border border-warm-200 p-8 mb-6">
+    <div class="flex justify-between items-start">
+      <div>
+        <h1 class="text-2xl font-bold mb-3 text-warm-800">Redigera mall</h1>
+        <p class="text-warm-600">Uppdatera information för "<%= template.title %>"</p>
+      </div>
+      <div>
+        <a href="<%= baseURL %>exposure-templates/<%= template.id %>" class="text-warm-600 hover:text-warm-800 font-medium">Avbryt</a>
       </div>
     </div>
-  
-    <div class="bg-white rounded-xl shadow-md border border-warm-200 overflow-hidden">
-      <form action="<%= baseURL %>exposures/<%= exposure.id %>/update" method="POST" class="p-6">
-        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        
-        <div class="mb-4">
-          <label for="title" class="block text-warm-700 font-medium mb-2">Titel</label>
-          <input 
-            type="text" 
-            id="title" 
-            name="title" 
-            value="<%= exposure.title %>"
-            class="w-full px-4 py-2 border border-warm-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-warm-400"
-            required 
-            autofocus
-          >
-        </div>
-        
-        <div class="mb-4">
-          <label for="location" class="block text-warm-700 font-medium mb-2">Plats</label>
-          <input 
-            type="text" 
-            id="location" 
-            name="location" 
-            value="<%= exposure.location %>"
-            class="w-full px-4 py-2 border border-warm-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-warm-400"
-            required
-          >
-        </div>
-        
-        <div class="mb-4">
-          <label for="date" class="block text-warm-700 font-medium mb-2">Datum</label>
-          <input 
-            type="date" 
-            id="date" 
-            name="date" 
-            value="<%= exposure.date.toISOString().split('T')[0] %>"
-            class="w-full px-4 py-2 border border-warm-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-warm-400"
-            required
-          >
-        </div>
-        
-        <div class="mb-6">
-          <label for="expectedAnxiety" class="block text-warm-700 font-medium mb-2">Förväntad ångestnivå (0-10)</label>
-          <div class="flex items-center">
-            <input 
-              type="range" 
-              id="expectedAnxiety" 
-              name="expectedAnxiety" 
-              min="0" 
-              max="10" 
-              step="1" 
-              value="<%= exposure.expectedAnxiety %>"
-              class="w-full h-2 bg-warm-200 rounded-lg appearance-none cursor-pointer"
-              oninput="anxietyValue.textContent = this.value"
-            >
-            <span id="anxietyValue" class="ml-3 text-warm-700 font-medium"><%= exposure.expectedAnxiety %></span>
-          </div>
-        </div>
-        
-        <div class="flex items-center justify-between">
-          <button 
-            type="submit" 
-            class="bg-warm-600 hover:bg-warm-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300"
-          >
-            Spara ändringar
-          </button>
-        </div>
-      </form>
-    </div>
   </div>
+
+  <div class="bg-white rounded-xl shadow-md border border-warm-200 overflow-hidden">
+    <form action="<%= baseURL %>exposure-templates/<%= template.id %>/update" method="POST" class="p-6">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      
+      <div class="mb-4">
+        <label for="title" class="block text-warm-700 font-medium mb-2">Titel</label>
+        <input 
+          type="text" 
+          id="title" 
+          name="title" 
+          value="<%= template.title %>"
+          class="w-full px-4 py-2 border border-warm-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-warm-400"
+          required 
+          autofocus
+        >
+      </div>
+      
+      <div class="mb-4">
+        <label for="description" class="block text-warm-700 font-medium mb-2">Beskrivning</label>
+        <textarea 
+          id="description" 
+          name="description" 
+          rows="3" 
+          class="w-full px-4 py-2 border border-warm-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-warm-400"
+          required
+        ><%= template.description %></textarea>
+      </div>
+      
+      <div class="mb-6">
+        <label for="difficultyLevel" class="block text-warm-700 font-medium mb-2">Svårighetsgrad (1-10)</label>
+        <div class="flex items-center">
+          <input 
+            type="range" 
+            id="difficultyLevel" 
+            name="difficultyLevel" 
+            min="1" 
+            max="10" 
+            step="1" 
+            value="<%= template.difficultyLevel %>"
+            class="w-full h-2 bg-warm-200 rounded-lg appearance-none cursor-pointer"
+            oninput="difficultyValue.textContent = this.value"
+          >
+          <span id="difficultyValue" class="ml-3 text-warm-700 font-medium"><%= template.difficultyLevel %></span>
+        </div>
+      </div>
+
+      <div class="flex gap-2 mt-3 mb-6">
+        <div class="flex-1 bg-warm-300 rounded px-3 py-2 text-warm-800 text-sm">
+          <div class="font-medium">1-4: Lätt nivå</div>
+          <div class="text-xs">Bra att börja med. Lägre ångestnivå.</div>
+        </div>
+        <div class="flex-1 bg-warm-500 rounded px-3 py-2 text-white text-sm">
+          <div class="font-medium">5-7: Medel nivå</div>
+          <div class="text-xs">Utmanande. Måttlig ångestnivå.</div>
+        </div>
+        <div class="flex-1 bg-warm-700 rounded px-3 py-2 text-white text-sm">
+          <div class="font-medium">8-10: Svår nivå</div>
+          <div class="text-xs">Mycket utmanande. Högre ångestnivå.</div>
+        </div>
+      </div>
+      
+      <div class="flex items-center justify-between">
+        <button 
+          type="submit" 
+          class="bg-warm-600 hover:bg-warm-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300"
+        >
+          Spara ändringar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
