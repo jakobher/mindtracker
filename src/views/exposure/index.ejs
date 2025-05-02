@@ -1,3 +1,4 @@
+<!-- exposure/index.ejs -->
 <div class="max-w-6xl mx-auto px-4 py-12">
   <div class="bg-white rounded-xl shadow-md border border-warm-200 p-8 mb-6">
     <div class="flex justify-between items-center">
@@ -49,8 +50,8 @@
                   <% if (!exposure.completed) { %>
                     <div class="flex items-center">
                       <div class="relative w-24 h-3 bg-warm-100 rounded-full overflow-hidden">
-                        <div class="absolute top-0 left-0 h-full rounded-full transition-all bg-gradient-to-r from-warm-400 to-warm-600" 
-                        style="width:<%= (template.difficultyLevel * 10) %>%"></div>
+                        <div class="absolute top-0 left-0 h-full rounded-full transition-all bg-gradient-to-r from-warm-400 to-warm-600"
+                          style="width: <%= exposure.expectedAnxiety * 10 %>%"></div>
                       </div>
                       <span class="ml-2 text-sm text-warm-600"><%= exposure.expectedAnxiety %>/10</span>
                     </div>

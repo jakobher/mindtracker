@@ -69,39 +69,6 @@ export class ExposureTemplateController {
   }
 
   /**
-   * Show details for a specific template
-   */
-  async show (req, res, next) {
-    try {
-      const id = req.params.id
-
-      const template = await this.findUserTemplate(id, req.session.user.id)
-
-      if (!template) {
-        req.session.flash = {
-          type: 'danger',
-          message: 'Mallen hittades inte.'
-        }
-        return res.redirect('/exposure-templates')
-      }
-
-      // Find all exposures based on this template
-      const exposures = await Exposure.find({
-        template: template.id,
-        user: req.session.user.id
-      }).sort({ date: 1 })
-
-      res.render('exposure-templates/show', {
-        title: template.title,
-        template,
-        exposures
-      })
-    } catch (error) {
-      next(error)
-    }
-  }
-
-  /**
    * Show form to edit a template
    */
   async edit (req, res, next) {
@@ -158,13 +125,13 @@ export class ExposureTemplateController {
         message: 'Mallen har uppdaterats!'
       }
 
-      res.redirect(`/exposure-templates/${id}`)
+      res.redirect('/exposure-templates')
     } catch (error) {
       req.session.flash = {
         type: 'danger',
         message: error.message
       }
-      res.redirect(`/exposure-templates/${req.params.id}/edit`)
+      res.redirect('/exposure-templates')
     }
   }
 

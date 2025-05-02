@@ -1,12 +1,19 @@
-<!-- exposure-templates/new.ejs -->
+<!-- exposure-templates/edit.ejs -->
 <div class="max-w-2xl mx-auto px-4 py-12">
     <div class="bg-white rounded-xl shadow-md border border-warm-200 p-8 mb-6">
-      <h1 class="text-2xl font-bold mb-3 text-warm-800">Skapa ny mall</h1>
-      <p class="text-warm-600">Skapa en mall för en exponeringsövning som du kan återanvända.</p>
+      <div class="flex justify-between items-start">
+        <div>
+          <h1 class="text-2xl font-bold mb-3 text-warm-800">Redigera mall</h1>
+          <p class="text-warm-600">Uppdatera information för "<%= template.title %>"</p>
+        </div>
+        <div>
+            <a href="<%= baseURL %>exposure-templates" class="text-warm-600 hover:text-warm-800 font-medium">Avbryt</a>
+        </div>
+      </div>
     </div>
   
     <div class="bg-white rounded-xl shadow-md border border-warm-200 overflow-hidden">
-      <form action="<%= baseURL %>exposure-templates/create" method="POST" class="p-6">
+      <form action="<%= baseURL %>exposure-templates/<%= template.id %>/update" method="POST" class="p-6">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         
         <div class="mb-4">
@@ -15,6 +22,7 @@
             type="text" 
             id="title" 
             name="title" 
+            value="<%= template.title %>"
             class="w-full px-4 py-2 border border-warm-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-warm-400"
             required 
             autofocus
@@ -29,7 +37,7 @@
             rows="3" 
             class="w-full px-4 py-2 border border-warm-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-warm-400"
             required
-          ></textarea>
+          ><%= template.description %></textarea>
         </div>
         
         <div class="mb-6">
@@ -42,39 +50,36 @@
               min="1" 
               max="10" 
               step="1" 
-              value="5"
+              value="<%= template.difficultyLevel %>"
               class="w-full h-2 bg-warm-200 rounded-lg appearance-none cursor-pointer"
               oninput="difficultyValue.textContent = this.value"
             >
-            <span id="difficultyValue" class="ml-3 text-warm-700 font-medium">5</span>
+            <span id="difficultyValue" class="ml-3 text-warm-700 font-medium"><%= template.difficultyLevel %></span>
           </div>
         </div>
-
-        <div class="flex gap-2 mt-3">
-            <div class="flex-1 bg-warm-300 rounded px-3 py-2 text-warm-800 text-sm">
-              <div class="font-medium">1-4: Lätt nivå</div>
-              <div class="text-xs">Bra att börja med. Lägre ångestnivå.</div>
-            </div>
-            <div class="flex-1 bg-warm-500 rounded px-3 py-2 text-white text-sm">
-              <div class="font-medium">5-7: Medel nivå</div>
-              <div class="text-xs">Utmanande. Måttlig ångestnivå.</div>
-            </div>
-            <div class="flex-1 bg-warm-700 rounded px-3 py-2 text-white text-sm">
-              <div class="font-medium">8-10: Svår nivå</div>
-              <div class="text-xs">Mycket utmanande. Högre ångestnivå.</div>
-            </div>
+  
+        <div class="flex gap-2 mt-3 mb-6">
+          <div class="flex-1 bg-warm-300 rounded px-3 py-2 text-warm-800 text-sm">
+            <div class="font-medium">1-4: Lätt nivå</div>
+            <div class="text-xs">Bra att börja med. Lägre ångestnivå.</div>
           </div>
-          <br>
-        
+          <div class="flex-1 bg-warm-500 rounded px-3 py-2 text-white text-sm">
+            <div class="font-medium">5-7: Medel nivå</div>
+            <div class="text-xs">Utmanande. Måttlig ångestnivå.</div>
+          </div>
+          <div class="flex-1 bg-warm-700 rounded px-3 py-2 text-white text-sm">
+            <div class="font-medium">8-10: Svår nivå</div>
+            <div class="text-xs">Mycket utmanande. Högre ångestnivå.</div>
+          </div>
+        </div>
         
         <div class="flex items-center justify-between">
           <button 
             type="submit" 
             class="bg-warm-600 hover:bg-warm-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300"
           >
-            Spara mall
+            Spara ändringar
           </button>
-          <a href="<%= baseURL %>exposure-templates" class="text-warm-600 hover:text-warm-800 font-medium">Avbryt</a>
         </div>
       </form>
     </div>
