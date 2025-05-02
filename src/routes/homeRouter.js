@@ -12,3 +12,4 @@ const controller = new HomeController()
 
 // Map HTTP verbs and route paths to controller methods.
 router.get('/', (req, res, next) => controller.index(req, res, next))
+router.get('/get-started', (req, res, next) => controller.getStarted(req, res, next))

@@ -14,6 +14,8 @@ const controller = new ExposureController()
 // Skydda alla routes med authentication middleware
 // router.use(isAuthenticated)
 
+router.get('/exposure', (req, res, next) => controller.dashboard(req, res, next))
+
 // Map HTTP verbs and route paths to controller methods.
 router.get('/', (req, res, next) => controller.index(req, res, next))
 router.get('/new', (req, res, next) => controller.new(req, res, next))

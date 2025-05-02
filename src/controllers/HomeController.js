@@ -26,4 +26,15 @@ export class HomeController {
       next(error)
     }
   }
+
+  /**
+ * Displays the get started page
+ */
+  async getStarted (req, res, next) {
+    try {
+      res.render('home/get-started', { title: 'Kom igång' })
+    } catch (error) {
+      next(error)
+    }
+  }
 }

@@ -5,16 +5,29 @@
         <h1 class="text-2xl font-bold text-warm-800">MindTracker</h1>
       </div>
       <nav>
-        <ul class="flex space-x-6">
-          <li><a href="<%= baseURL %>" class="text-warm-700 hover:text-warm-900 font-semibold">Översikt</a></li>
+        <ul class="flex space-x-6 items-center">
+          <li><a href="<%= baseURL %>" class="text-warm-700 hover:text-warm-900 font-semibold">Hem</a></li>
           <% if (user) { %>
-            <li><a href="<%= baseURL %>exposure-templates" class="text-warm-500 hover:text-warm-700">Min stege</a></li>
-            <li><a href="<%= baseURL %>exposures" class="text-warm-500 hover:text-warm-700">Mina övningar</a></li>
+            <li class="relative group">
+              <a href="<%= baseURL %>exposure-dashboard" class="text-warm-500 hover:text-warm-700 flex items-center">
+                Exponeringsmodul
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </a>
+              <div class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 hidden group-hover:block">
+                <a href="<%= baseURL %>dashboard/exposure" class="block px-4 py-2 text-sm text-warm-700 hover:bg-warm-100">Dashboard</a>
+                <a href="<%= baseURL %>exposure-templates" class="block px-4 py-2 text-sm text-warm-700 hover:bg-warm-100">Exponeringsstege</a>
+                <a href="<%= baseURL %>exposures" class="block px-4 py-2 text-sm text-warm-700 hover:bg-warm-100">Mina övningar</a>
+              </div>
+            </li>
             <li><a href="<%= baseURL %>thoughts" class="text-warm-500 hover:text-warm-700">Tankeutmanare</a></li>
+            <li><a href="<%= baseURL %>get-started" class="text-warm-500 hover:text-warm-700">Kom igång</a></li>
             <li><a href="<%= baseURL %>auth/logout" class="text-warm-500 hover:text-warm-700">Logga ut</a></li>
           <% } else { %>
             <li><a href="<%= baseURL %>auth/login" class="text-warm-500 hover:text-warm-700">Logga in</a></li>
             <li><a href="<%= baseURL %>auth/register" class="text-warm-500 hover:text-warm-700">Registrera</a></li>
+            <li><a href="<%= baseURL %>get-started" class="text-warm-500 hover:text-warm-700">Kom igång</a></li>
           <% } %>
         </ul>
       </nav>

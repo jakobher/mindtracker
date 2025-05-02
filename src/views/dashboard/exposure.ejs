@@ -1,0 +1,113 @@
+<div class="max-w-6xl mx-auto px-4 py-12">
+    <div class="bg-white rounded-xl shadow-md border border-warm-200 p-8 mb-8">
+      <h1 class="text-2xl font-bold mb-4 text-warm-800">Exponeringsmodul</h1>
+      <p class="text-warm-600">
+        Exponering är en effektiv metod för att hantera social ångest. Genom att medvetet utsätta dig för situationer 
+        som framkallar ångest i en kontrollerad och gradvis stegring, lär du din hjärna att situationen inte är farlig.
+      </p>
+    </div>
+  
+    <!-- Arbetssätt -->
+    <div class="bg-white rounded-xl shadow-md border border-warm-200 p-8 mb-8">
+      <h2 class="text-xl font-bold mb-4 text-warm-800">Så här arbetar du med exponering</h2>
+      
+      <div class="space-y-6">
+        <div class="flex">
+          <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-warm-100 rounded-full mr-4">
+            <span class="text-warm-800 font-bold">1</span>
+          </div>
+          <div>
+            <h3 class="font-bold text-warm-800 mb-1">Skapa din exponeringsstege</h3>
+            <p class="text-warm-600">
+              Bygg upp en hierarki av situationer från minst till mest ångestframkallande. Varje steg i stegen 
+              representeras av en mall.
+            </p>
+          </div>
+        </div>
+        
+        <div class="flex">
+          <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-warm-100 rounded-full mr-4">
+            <span class="text-warm-800 font-bold">2</span>
+          </div>
+          <div>
+            <h3 class="font-bold text-warm-800 mb-1">Planera konkreta övningar</h3>
+            <p class="text-warm-600">
+              Utifrån dina mallar skapar du specifika övningar med tid och plats. Ange också din förväntade ångestnivå.
+            </p>
+          </div>
+        </div>
+        
+        <div class="flex">
+          <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-warm-100 rounded-full mr-4">
+            <span class="text-warm-800 font-bold">3</span>
+          </div>
+          <div>
+            <h3 class="font-bold text-warm-800 mb-1">Genomför övningarna</h3>
+            <p class="text-warm-600">
+              Börja med de lättare övningarna och stanna kvar i situationen. Det är viktigt att du stannar tills 
+              ångesten börjar avta naturligt.
+            </p>
+          </div>
+        </div>
+        
+        <div class="flex">
+          <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-warm-100 rounded-full mr-4">
+            <span class="text-warm-800 font-bold">4</span>
+          </div>
+          <div>
+            <h3 class="font-bold text-warm-800 mb-1">Registrera och reflektera</h3>
+            <p class="text-warm-600">
+              Efter varje övning, registrera din faktiska ångestnivå och reflektera över upplevelsen. Vad lärde du dig?
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Navigation Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <!-- Card 1: Exponeringsstege -->
+      <div class="bg-white rounded-xl shadow-md border border-warm-200 overflow-hidden hover:shadow-lg transition-shadow">
+        <div class="p-6">
+          <h3 class="text-xl font-bold mb-3 text-warm-800">Min exponeringsstege</h3>
+          <p class="text-warm-600 mb-4">
+            Hantera dina övningsmallar och skapa en personlig stege från lättare till svårare utmaningar.
+          </p>
+          <a href="<%= baseURL %>exposure-templates" class="inline-flex items-center bg-warm-600 hover:bg-warm-700 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
+            Gå till exponeringsstegen
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Card 2: Mina övningar -->
+      <div class="bg-white rounded-xl shadow-md border border-warm-200 overflow-hidden hover:shadow-lg transition-shadow">
+        <div class="p-6">
+          <h3 class="text-xl font-bold mb-3 text-warm-800">Mina övningar</h3>
+          <p class="text-warm-600 mb-4">
+            Se dina planerade och genomförda övningar. Registrera resultat och reflektera över dina upplevelser.
+          </p>
+          <a href="<%= baseURL %>exposures" class="inline-flex items-center bg-warm-600 hover:bg-warm-700 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
+            Hantera övningar
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Tips box -->
+    <div class="bg-warm-50 rounded-xl shadow-md border border-warm-200 p-8">
+      <h2 class="text-xl font-bold mb-4 text-warm-800">Tips för framgångsrik exponering</h2>
+      <ul class="list-disc list-inside space-y-2 text-warm-700">
+        <li><span class="font-medium">Var regelbunden:</span> Försök att göra exponeringsövningar flera gånger i veckan</li>
+        <li><span class="font-medium">Stanna kvar:</span> Att lämna en situation när ångesten är som högst förstärker undvikandebeteende</li>
+        <li><span class="font-medium">Upprepa:</span> Gör samma övning flera gånger tills ångestnivån minskar betydligt</li>
+        <li><span class="font-medium">Var modig men realistisk:</span> Utmana dig själv, men sätt inte orimliga krav</li>
+        <li><span class="font-medium">Belöna dig själv:</span> Uppmärksamma dina framsteg, även små sådana</li>
+      </ul>
+    </div>
+  </div>
