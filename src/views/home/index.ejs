@@ -47,7 +47,11 @@
         <p class="text-warm-600 text-center">Skapa personliga exponeringsövningar med olika svårighetsgrader och registrera dina resultat.</p>
       </div>
       <div class="bg-warm-50 px-6 py-4">
-        <button disabled class="w-full py-2 bg-warm-200 text-warm-700 rounded font-medium">Kommer snart</button>
+        <% if (username) { %>
+          <a href="<%= baseURL %>dashboard/exposure" class="inline-block w-full py-2 bg-warm-600 text-white hover:bg-warm-700 rounded font-medium text-center transition duration-300">Gå till exponeringsmodul</a>
+        <% } else { %>
+          <a href="<%= baseURL %>auth/login" class="inline-block w-full py-2 bg-warm-600 text-white hover:bg-warm-700 rounded font-medium text-center transition duration-300">Logga in</a>
+        <% } %>
       </div>
     </div>
 
