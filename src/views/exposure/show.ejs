@@ -81,7 +81,7 @@
   <% if (!exposure.completed) { %>
     <div class="bg-white rounded-xl shadow-md border border-warm-200 overflow-hidden">
       <div class="p-6">
-        <h2 class="text-xl font-semibold mb-4 text-warm-800">Markera som genomförd</h2>
+        <h2 class="text-xl font-semibold mb-4 text-warm-800">Slutför övning</h2>
         <p class="text-warm-600 mb-4">När du har genomfört denna övning, markera den som slutförd och ange din faktiska ångestnivå samt reflektioner.</p>
         
         <form action="<%= baseURL %>exposures/<%= exposure.id %>/complete" method="POST">
@@ -126,17 +126,4 @@
       </div>
     </div>
   <% } %>
-  
-  <div class="flex justify-between mt-6">
-    <a href="<%= baseURL %>exposures" class="bg-warm-100 hover:bg-warm-200 text-warm-800 font-medium py-2 px-4 rounded-lg transition duration-300">
-      Tillbaka till lista
-    </a>
-    
-    <form action="<%= baseURL %>exposures/<%= exposure.id %>/delete" method="POST" onsubmit="return confirm('Är du säker på att du vill ta bort denna övning?');">
-      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-      <button type="submit" class="bg-red-100 hover:bg-red-200 text-red-800 font-medium py-2 px-6 rounded-lg transition duration-300">
-        Ta bort
-      </button>
-    </form>
-  </div>
 </div>

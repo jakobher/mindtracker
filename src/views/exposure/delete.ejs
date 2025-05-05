@@ -1,0 +1,52 @@
+<!-- exposure/delete.ejs -->
+<div class="max-w-2xl mx-auto px-4 py-12">
+    <div class="bg-white rounded-xl shadow-md border border-warm-200 p-8 mb-6">
+      <div class="flex justify-between items-start">
+        <div>
+          <h1 class="text-2xl font-bold mb-3 text-warm-800">Ta bort övning</h1>
+          <p class="text-warm-600">Du är på väg att ta bort övningen "<%= exposure.title %>"</p>
+        </div>
+        <div>
+            <a href="<%= baseURL %>exposures" class="bg-warm-100 hover:bg-warm-200 text-warm-800 font-medium py-2 px-6 rounded-lg transition duration-300">
+                Avbryt
+              </a>
+        </div>
+      </div>
+    </div>
+  
+    <div class="bg-warm-50 rounded-xl shadow-md border border-warm-200 p-6 mb-6">
+      <div class="flex items-start">
+        <div class="mr-4 text-yellow-600">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-bold text-warm-800 mb-1">Viktig information</h3>
+          <p class="text-warm-600">
+            Om du tar bort denna övning tas den bort permanent och kan inte ångras.
+          </p>
+        </div>
+      </div>
+    </div>
+  
+    <div class="bg-white rounded-xl shadow-md border border-red-100 p-6">
+      <h2 class="text-lg font-semibold mb-3 text-red-800">Bekräfta borttagning</h2>
+      <p class="text-warm-600 mb-4">
+        Är du säker på att du vill ta bort "<%= exposure.title %>"?
+      </p>
+  
+      <div class="flex items-center space-x-4">
+        <form action="<%= baseURL %>exposures/<%= exposure.id %>/delete" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-6 rounded-lg transition duration-300">
+            Ta bort permanent
+          </button>
+        </form>
+        <a href="<%= baseURL %>exposures" class="bg-warm-100 hover:bg-warm-200 text-warm-800 font-medium py-2 px-6 rounded-lg transition duration-300">
+            Avbryt
+          </a>
+      </div>
+    </div>
+  </div>
+  

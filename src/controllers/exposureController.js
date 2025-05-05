@@ -206,6 +206,29 @@ export class ExposureController {
     }
   }
 
+  async renderDelete (req, res, next) {
+    try {
+      const id = req.params.id
+      const exposure = await this.findUserExposure(id, req.session.user.id)
+
+      if (!exposure) {
+        req.session.flash = {
+          type: 'danger',
+          message: 'Exponeringsövningen hittades inte.'
+        }
+        return res.redirect('/exposures')
+      }
+
+      res.render('exposure/delete', {
+        title: `Ta bort ${exposure.title}`,
+        exposure,
+        csrfToken: req.csrfToken()
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
+
   // Delete an exposure exercise
   async delete (req, res, next) {
     try {
