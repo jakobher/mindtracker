@@ -136,6 +136,40 @@ export class ExposureTemplateController {
   }
 
   /**
+ * Shows the delete confirmation view for a template
+ */
+  async deleteTemplateView (req, res, next) {
+    try {
+      const id = req.params.id
+
+      // Find the template and ensure it belongs to the current user
+      const template = await this.findUserTemplate(id, req.session.user.id)
+
+      if (!template) {
+        req.session.flash = {
+          type: 'danger',
+          message: 'Mallen hittades inte.'
+        }
+        return res.redirect('/exposure-templates')
+      }
+
+      // Count exposures using this template
+      const exposureCount = await Exposure.countDocuments({
+        template: template.id,
+        user: req.session.user.id
+      })
+
+      res.render('exposure-templates/delete', {
+        title: `Ta bort ${template.title}`,
+        template,
+        exposureCount
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  /**
    * Delete a template
    */
   async delete (req, res, next) {
@@ -160,19 +194,18 @@ export class ExposureTemplateController {
       })
 
       if (exposureCount > 0) {
-        req.session.flash = {
-          type: 'danger',
-          message: 'Det finns övningar kopplade till denna mall. Ta bort dem först.'
-        }
-        return res.redirect(`/exposure-templates/${id}`)
+        await Exposure.updateMany(
+          { template: template.id, user: req.session.user.id },
+          { $unset: { template: '' } }
+        )
       }
 
       // Delete the template
-      await template.deleteOne()
+      await ExposureTemplate.deleteOne({ _id: id, user: req.session.user.id })
 
       req.session.flash = {
         type: 'success',
-        message: 'Mallen har tagits bort!'
+        message: `Mallen "${template.title}" har tagits bort!${exposureCount > 0 ? ` ${exposureCount} relaterade övningar påverkas inte.` : ''}`
       }
 
       res.redirect('/exposure-templates')

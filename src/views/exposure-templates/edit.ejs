@@ -6,9 +6,21 @@
           <h1 class="text-2xl font-bold mb-3 text-warm-800">Redigera mall</h1>
           <p class="text-warm-600">Uppdatera information för "<%= template.title %>"</p>
         </div>
-        <div>
-            <a href="<%= baseURL %>exposure-templates" class="text-warm-600 hover:text-warm-800 font-medium">Avbryt</a>
-        </div>
+        <div class="flex space-x-3">
+            <button 
+              onclick="window.location.href='<%= baseURL %>exposure-templates'"
+              class="bg-warm-100 hover:bg-warm-200 text-warm-800 font-medium py-2 px-4 rounded-lg transition duration-300"
+            >
+              Avbryt
+            </button>
+            
+            <button 
+              onclick="window.location.href='<%= baseURL %>exposure-templates/<%= template.id %>/delete'"
+              class="bg-red-100 hover:bg-red-200 text-red-800 font-medium py-2 px-4 rounded-lg transition duration-300"
+            >
+              Ta bort
+            </button>
+          </div>
       </div>
     </div>
   
