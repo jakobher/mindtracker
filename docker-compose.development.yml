@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev  # Utvecklings-specifik Dockerfile
+    volumes:
+      - ./:/usr/src/app  # Montera projektmappen för att få direkta uppdateringar
+      - /usr/src/app/node_modules  # Undvik att node_modules skrivs över
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - DB_CONNECTION_STRING=mongodb://mongo:27017/mindtracker
+      - SESSION_NAME=mindtracker_session
+      - SESSION_SECRET=dev_secret_byt_i_produktion
+      - BASE_URL=/
+    ports:
+      - "3000:3000"  # Exponera porten direkt för utveckling
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:5.0
+    volumes:
+      - mongo-dev-data:/data/db
+    ports:
+      - "27017:27017"  # Exponera MongoDB-porten för direkt åtkomst i utveckling
+    command: mongod --quiet --logpath /dev/null # Tystar mongodbloggar  
+
+volumes:
+  mongo-dev-data:

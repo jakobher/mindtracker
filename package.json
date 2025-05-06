@@ -11,7 +11,11 @@
     "start": "node src/server.js",
     "dev": "nodemon --inspect --env-file=.env src/server.js",
     "lint": "npx eslint ./src || exit 0",
-    "lint:fix": "npx eslint ./src --fix || exit 0"
+    "lint:fix": "npx eslint ./src --fix || exit 0",
+    "docker:dev": "docker-compose -f docker-compose.development.yml up",
+    "docker:dev:build": "docker-compose -f docker-compose.development.yml up --build",
+    "docker:prod": "docker-compose -f docker-compose.production.yml up -d",
+    "docker:prod:build": "docker-compose -f docker-compose.production.yml up --build -d"
   },
   "author": "Jakob Hermansson",
   "license": "ISC",

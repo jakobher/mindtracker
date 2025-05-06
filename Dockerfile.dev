@@ -1,0 +1,19 @@
+FROM node:18-alpine
+
+WORKDIR /usr/src/app
+
+# Kopiera package.json-filer först för att utnyttja Docker-cache
+COPY package*.json ./
+
+# Installera alla beroenden inklusive devDependencies
+RUN npm install
+
+# Vi monterar kodvolymen i docker-compose, så inget behov av att kopiera här
+# Detta säkerställer bara att containern kan starta om det inte finns någon monterad kod
+COPY . .
+
+# Exponera port
+EXPOSE 3000
+
+# Kör applikationen i utvecklingsläge
+CMD ["npx", "nodemon", "--inspect", "src/server.js"]

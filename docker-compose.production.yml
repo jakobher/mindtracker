@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - /etc/letsencrypt:/etc/letsencrypt
+    networks:
+      - mindtracker-network
+
+  app:
+    build: .
+    restart: unless-stopped
+    networks:
+      - mindtracker-network
+    env_file: .env.production
+    environment: NODE_ENV=production
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:5.0
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - mindtracker-network
+
+networks:
+  mindtracker-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
