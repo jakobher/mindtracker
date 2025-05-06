@@ -18,8 +18,7 @@ services:
     restart: unless-stopped
     networks:
       - mindtracker-network
-    env_file: .env.production
-    environment: NODE_ENV=production
+    env_file: .env
     depends_on:
       - mongo
 
