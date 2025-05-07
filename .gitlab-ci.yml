@@ -61,7 +61,15 @@ deploy_staging_job:
   before_script: *before_script_ssh_setup
   script:
     - echo "Deploying to staging environment..."
-    - docker compose -f docker-compose.yaml up --build -d
+    # Exportera miljövariabler från GitLab CI/CD till Docker Compose
+    - >
+      docker compose -f docker-compose.yaml up --build -d
+      -e NODE_ENV=production
+      -e PORT=3000
+      -e DB_CONNECTION_STRING=mongodb://mongo:27017/mindtracker
+      -e SESSION_NAME=$SESSION_NAME
+      -e SESSION_SECRET=$SESSION_SECRET
+      -e BASE_URL=/
   only:
     - main
 
@@ -77,7 +85,8 @@ deploy_production_job:
   before_script: *before_script_ssh_setup
   script:
     - echo "Deploying to production..."
-    - docker compose -f docker-compose.yaml -f docker-compose.production.yaml up --build -d
+    # Skicka bara SESSION_SECRET från GitLab CI/CD
+    - SESSION_SECRET=$SESSION_SECRET docker compose -f docker-compose.yaml -f docker-compose.production.yml up --build -d
   only:
     - main
   needs:
