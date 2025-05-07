@@ -60,12 +60,13 @@ deploy_production_job:
     DOCKER_HOST: ssh://ubuntu@$PRODUCTION_HOST
   before_script: 
     - *before_script_ssh_setup
-    # Installera rsync i Alpine Linux-containern
     - apk add --no-cache rsync
   script:
     - echo "Deploying to production..."
-    # Kopiera hela projektet till servern med rsync
-    - rsync -avz --delete ./ ubuntu@$PRODUCTION_HOST:/home/ubuntu/mindtracker/
+    # Ta bort nginx.conf om det är en katalog, för att undvika problem
+    - ssh ubuntu@$PRODUCTION_HOST "if [ -d /home/ubuntu/mindtracker/nginx.conf ]; then rm -rf /home/ubuntu/mindtracker/nginx.conf; fi"
+    # Kopiera alla filer inklusive nginx.conf från ditt repo
+    - rsync -avz --delete --exclude='.git/' ./ ubuntu@$PRODUCTION_HOST:/home/ubuntu/mindtracker/
     # Kör docker compose på servern direkt
     - ssh ubuntu@$PRODUCTION_HOST "cd /home/ubuntu/mindtracker && SESSION_SECRET=$SESSION_SECRET docker compose -f docker-compose.production.yml up --build -d"
   only:
