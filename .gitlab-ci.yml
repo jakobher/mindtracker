@@ -13,7 +13,7 @@
   - ssh-keyscan -H $PRODUCTION_HOST >> ~/.ssh/known_hosts
   - chmod 644 ~/.ssh/known_hosts
 
-# Use a Docker image with Node.js and npm support
+# Use a Docker image with Docker CLI support
 image: docker:27-cli
 
 # Define the stages of the pipeline
@@ -49,30 +49,6 @@ lint-test-job:
     - sleep 1 # Simulate linting time
     - echo "No linting issues found."
 
-# Job to deploy to the staging environment
-deploy_staging_job:
-  stage: deploy
-  environment:
-    name: staging
-    url: http://$STAGING_HOST
-  variables:
-    REMOTE_HOST: $STAGING_HOST
-    DOCKER_HOST: ssh://ubuntu@$STAGING_HOST
-  before_script: *before_script_ssh_setup
-  script:
-    - echo "Deploying to staging environment..."
-    # Exportera miljövariabler från GitLab CI/CD till Docker Compose
-    - >
-      docker compose -f docker-compose.yaml up --build -d
-      -e NODE_ENV=production
-      -e PORT=3000
-      -e DB_CONNECTION_STRING=mongodb://mongo:27017/mindtracker
-      -e SESSION_NAME=$SESSION_NAME
-      -e SESSION_SECRET=$SESSION_SECRET
-      -e BASE_URL=/
-  only:
-    - main
-
 # Job to deploy to the production environment
 deploy_production_job:
   stage: deploy
@@ -85,8 +61,8 @@ deploy_production_job:
   before_script: *before_script_ssh_setup
   script:
     - echo "Deploying to production..."
-    # Skicka bara SESSION_SECRET från GitLab CI/CD
-    - SESSION_SECRET=$SESSION_SECRET docker compose -f docker-compose.yaml -f docker-compose.production.yml up --build -d
+    # Exportera SESSION_SECRET som miljövariabel så docker-compose.production.yml kan använda ${SESSION_SECRET}
+    - SESSION_SECRET=$SESSION_SECRET docker compose -f docker-compose.yml -f docker-compose.production.yml up --build -d
   only:
     - main
   needs:
