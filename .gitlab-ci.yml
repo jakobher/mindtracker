@@ -54,15 +54,18 @@ deploy_production_job:
   stage: deploy
   environment:
     name: production
-    url: http://$PRODUCTION_HOST
+    url: https://$PRODUCTION_HOST
   variables:
     REMOTE_HOST: $PRODUCTION_HOST
     DOCKER_HOST: ssh://ubuntu@$PRODUCTION_HOST
   before_script: *before_script_ssh_setup
   script:
     - echo "Deploying to production..."
-    # Exportera SESSION_SECRET som miljövariabel så docker-compose.production.yml kan använda ${SESSION_SECRET}
-    - SESSION_SECRET=$SESSION_SECRET docker compose -f docker-compose.production.yml up --build -d
+    # Kopiera hela projektet till servern
+    - ssh ubuntu@$PRODUCTION_HOST "mkdir -p /home/ubuntu/mindtracker"
+    - scp -r * ubuntu@$PRODUCTION_HOST:/home/ubuntu/mindtracker/
+    # Kör docker compose på servern direkt
+    - ssh ubuntu@$PRODUCTION_HOST "cd /home/ubuntu/mindtracker && SESSION_SECRET=$SESSION_SECRET docker compose -f docker-compose.production.yml up --build -d"
   only:
     - main
   needs:
