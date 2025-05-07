@@ -62,7 +62,7 @@ deploy_production_job:
   script:
     - echo "Deploying to production..."
     # Exportera SESSION_SECRET som miljövariabel så docker-compose.production.yml kan använda ${SESSION_SECRET}
-    - SESSION_SECRET=$SESSION_SECRET docker compose -f docker-compose.yml -f docker-compose.production.yml up --build -d
+    - SESSION_SECRET=$SESSION_SECRET docker compose -f docker-compose.production.yml up --build -d
   only:
     - main
   needs:
