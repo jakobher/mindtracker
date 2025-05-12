@@ -5,7 +5,7 @@
  * @version 1.0.0
  */
 
-import { Exposure } from '../models/ExposureModel'
+import { Exposure } from '../models/ExposureModel.js'
 
 /**
  * Encapsulates a controller for progress tracking.
