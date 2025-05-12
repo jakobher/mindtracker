@@ -10,6 +10,7 @@ import { router as authRouter } from './authRouter.js'
 import { router as exposureRouter } from './exposureRouter.js'
 import { router as exposureTemplateRouter } from './exposureTemplateRouter.js'
 import { router as dashboardRouter } from './dashboardRouter.js'
+import { router as progressRouter } from './progressRouter.js'
 
 export const router = express.Router()
 
@@ -19,11 +20,4 @@ router.use('/auth', authRouter)
 router.use('/dashboard', dashboardRouter)
 router.use('/exposures', exposureRouter)
 router.use('/exposure-templates', exposureTemplateRouter)
-
-// Catch 404 and forward to error handler
-// router.use('*', (req, res, next) => {
-//   const statusCode = 404
-//   const error = new Error(http.STATUS_CODES[statusCode])
-//   error.status = statusCode
-//   next(error)
-// })
+router.use('/progress', progressRouter)
