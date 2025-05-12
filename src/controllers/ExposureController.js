@@ -131,6 +131,7 @@ export class ExposureController {
       // Update the exersice with completion data
       exposure.completed = true
       exposure.actualAnxiety = req.body.actualAnxiety
+      exposure.peakAnxiety = req.body.peakAnxiety
       exposure.comment = req.body.comment
 
       await exposure.save()

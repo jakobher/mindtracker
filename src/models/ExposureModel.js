@@ -32,6 +32,11 @@ const schema = new mongoose.Schema({
     min: 0,
     max: 10
   },
+  peakAnxiety: {
+    type: Number,
+    min: 0,
+    max: 10
+  },
   comment: {
     type: String,
     trim: true

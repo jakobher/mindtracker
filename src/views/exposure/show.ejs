@@ -56,17 +56,30 @@
         </div>
 
         <% if (exposure.completed && exposure.actualAnxiety !== undefined) { %>
-        <div>
-          <p class="text-sm text-warm-500 mb-1">Faktisk ångestnivå</p>
-          <div class="flex items-center">
-            <div class="relative w-32 h-4 bg-warm-100 rounded-full overflow-hidden">
-              <div class="absolute top-0 left-0 h-full rounded-full transition-all bg-gradient-to-r from-green-400 to-green-600"
-                style="width: <%= (exposure.actualAnxiety * 10) + '%' %>"></div>
+          <div>
+            <p class="text-sm text-warm-500 mb-1">Faktisk ångestnivå</p>
+            <div class="flex items-center">
+              <div class="relative w-32 h-4 bg-warm-100 rounded-full overflow-hidden">
+                <div class="absolute top-0 left-0 h-full rounded-full transition-all bg-gradient-to-r from-green-400 to-green-600"
+                  style="width: <%= (exposure.actualAnxiety * 10) + '%' %>"></div>
+              </div>
+              <span class="ml-3 text-warm-700 font-medium"><%= exposure.actualAnxiety %>/10</span>
             </div>
-            <span class="ml-3 text-warm-700 font-medium"><%= exposure.actualAnxiety %>/10</span>
           </div>
-        </div>
-        <% } %>
+          <% } %>
+          
+          <% if (exposure.completed && exposure.peakAnxiety !== undefined) { %>
+          <div>
+            <p class="text-sm text-warm-500 mb-1">Högsta ångestnivå</p>
+            <div class="flex items-center">
+              <div class="relative w-32 h-4 bg-warm-100 rounded-full overflow-hidden">
+                <div class="absolute top-0 left-0 h-full rounded-full transition-all bg-gradient-to-r from-orange-400 to-orange-600"
+                  style="width: <%= (exposure.peakAnxiety * 10) + '%' %>"></div>
+              </div>
+              <span class="ml-3 text-warm-700 font-medium"><%= exposure.peakAnxiety %>/10</span>
+            </div>
+          </div>
+          <% } %>
         
         <% if (exposure.completed && exposure.comment) { %>
         <div class="md:col-span-2">
@@ -88,7 +101,7 @@
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           
           <div class="mb-4">
-            <label for="actualAnxiety" class="block text-warm-700 font-medium mb-2">Faktisk ångestnivå (0-10)</label>
+            <label for="actualAnxiety" class="block text-warm-700 font-medium mb-2">Faktisk ångestnivå när övningen var klar (0-10)</label>
             <div class="flex items-center">
               <input 
                 type="range" 
@@ -106,13 +119,32 @@
           </div>
           
           <div class="mb-4">
+            <label for="peakAnxiety" class="block text-warm-700 font-medium mb-2">Högsta ångestnivå under övningen (0-10)</label>
+            <div class="flex items-center">
+              <input 
+                type="range" 
+                id="peakAnxiety" 
+                name="peakAnxiety" 
+                min="0" 
+                max="10" 
+                step="1" 
+                value="<%= exposure.expectedAnxiety %>"
+                class="w-full h-2 bg-warm-200 rounded-lg appearance-none cursor-pointer"
+                oninput="peakValue.textContent = this.value"
+              >
+              <span id="peakValue" class="ml-3 text-warm-700 font-medium"><%= exposure.expectedAnxiety %></span>
+            </div>
+            <p class="mt-1 text-sm text-warm-500">Hur högt kom ångesten som mest under övningen?</p>
+          </div>
+          
+          <div class="mb-4">
             <label for="comment" class="block text-warm-700 font-medium mb-2">Dina reflektioner</label>
             <textarea 
               id="comment" 
               name="comment" 
               rows="3" 
               class="w-full px-4 py-2 border border-warm-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-warm-400"
-              placeholder="Hur kändes övningen? Bättre eller sämre än förväntat? Vad lärde du dig?"
+              placeholder="Hur kändes övningen? När var ångesten som högst? Vad lärde du dig?"
             ></textarea>
           </div>
           
