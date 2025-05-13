@@ -20,31 +20,74 @@ export class ProgressController {
       const completedExposures = await Exposure.find({
         user: req.session.user.id,
         completed: true
-      })
+      }).sort({ date: 1 })
 
-      // Calculate simple statistics
+      // Calculate statistics
       const totalCompleted = completedExposures.length
+      const averageDifference = this.calculateAverageDifference(completedExposures)
 
-      // Calculate average difference
-      let totalDifference = 0
-      completedExposures.forEach(exposure => {
-        // How much lower was actual anxiety than expected?
-        const difference = exposure.expectedAnxiety - exposure.actualAnxiety
-        totalDifference += difference
-      })
-
-      const averageDifference = totalCompleted > 0
-        ? (totalDifference / totalCompleted).toFixed(1)
-        : 0
+      // Group data (5 per group for easy testing)
+      const groupedData = this.groupExposures(completedExposures, 5)
 
       res.render('progress/index', {
         title: 'Min utveckling',
         totalCompleted,
         averageDifference,
+        groupedData,
         exposures: completedExposures
       })
     } catch (error) {
       next(error)
     }
+  }
+
+  /**
+   * Calculates average difference between expected and actual anxiety
+   */
+  calculateAverageDifference (exposures) {
+    if (exposures.length === 0) return 0
+
+    let totalDifference = 0
+    exposures.forEach(exposure => {
+      const difference = exposure.expectedAnxiety - exposure.actualAnxiety
+      totalDifference += difference
+    })
+
+    return (totalDifference / exposures.length).toFixed(1)
+  }
+
+  /**
+   * Groups exposures and calculates averages for each group
+   */
+  groupExposures (exposures, groupSize) {
+    const groupedData = []
+
+    for (let i = 0; i < exposures.length; i += groupSize) {
+      const group = exposures.slice(i, i + groupSize)
+
+      // Only create a group if it's complete (has groupSize items)
+      // This means we wait for 5 more before creating next group
+      if (group.length === groupSize) {
+        let expectedSum = 0
+        let actualSum = 0
+        let peakSum = 0
+
+        group.forEach(exposure => {
+          expectedSum += exposure.expectedAnxiety
+          actualSum += exposure.actualAnxiety
+          peakSum += exposure.peakAnxiety || exposure.actualAnxiety
+        })
+
+        groupedData.push({
+          groupNumber: Math.floor(i / groupSize) + 1,
+          avgExpected: (expectedSum / group.length).toFixed(1),
+          avgActual: (actualSum / group.length).toFixed(1),
+          avgPeak: (peakSum / group.length).toFixed(1),
+          exposureCount: group.length
+        })
+      }
+    }
+
+    return groupedData
   }
 }

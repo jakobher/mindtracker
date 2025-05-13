@@ -1,0 +1,174 @@
+<!-- progress/index.ejs -->
+<div class="max-w-6xl mx-auto px-4 py-8">
+    <div class="bg-white rounded-xl shadow-md border border-warm-200 p-6">
+      <h1 class="text-2xl font-bold mb-6 text-warm-800">Min utveckling</h1>
+      
+      <!-- Statistik överst -->
+      <div class="bg-warm-50 p-4 rounded-lg text-center mb-8 max-w-xs">
+        <p class="text-3xl font-bold text-warm-700"><%= totalCompleted %></p>
+        <p class="text-warm-600">genomförda övningar</p>
+      </div>
+      
+      <% if (groupedData && groupedData.length > 0) { %>
+        <!-- Tidsperspektiv-knappar -->
+        <div class="flex gap-2 mb-6 flex-wrap">
+          <button class="px-4 py-2 rounded-md border border-warm-300 bg-white text-warm-700 font-medium hover:bg-warm-50 transition duration-200" data-period="5">Senaste 5</button>
+          <% if (totalCompleted >= 10) { %>
+            <button class="px-4 py-2 rounded-md border border-warm-300 bg-white text-warm-700 font-medium hover:bg-warm-50 transition duration-200" data-period="10">Senaste 10</button>
+          <% } %>
+          <% if (totalCompleted >= 25) { %>
+            <button class="px-4 py-2 rounded-md border border-warm-300 bg-white text-warm-700 font-medium hover:bg-warm-50 transition duration-200" data-period="25">Senaste 25</button>
+          <% } %>
+          <% if (totalCompleted >= 50) { %>
+            <button class="px-4 py-2 rounded-md border border-warm-300 bg-white text-warm-700 font-medium hover:bg-warm-50 transition duration-200" data-period="50">Senaste 50</button>
+          <% } %>
+          <button class="px-4 py-2 rounded-md border border-warm-300 bg-white text-warm-700 font-medium hover:bg-warm-50 transition duration-200" data-period="all">Alla</button>
+        </div>
+        
+        <!-- Graf-container -->
+        <div class="bg-warm-50 p-6 rounded-lg">
+          <div id="chart-container" style="height: 350px;"></div>
+        </div>
+      <% } else { %>
+        <div class="bg-warm-50 p-6 rounded-lg text-center">
+          <p class="text-warm-600">Genomför minst 5 övningar för att se din utveckling över tid.</p>
+        </div>
+      <% } %>
+    </div>
+  </div>
+  
+  <!-- ApexCharts CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  
+  <script>
+    const groupedData = <%- JSON.stringify(groupedData) %>;
+    const completedExposures = <%- JSON.stringify(exposures || []) %>;
+    let chart;
+    
+    function calculateAverageForLastN(n) {
+      // Ta de senaste N övningarna
+      const lastN = completedExposures.slice(-n);
+      
+      if (lastN.length === 0) return null;
+      
+      // Räkna ut genomsnitt
+      let expectedSum = 0;
+      let peakSum = 0;
+      let actualSum = 0;
+      
+      lastN.forEach(exposure => {
+        expectedSum += exposure.expectedAnxiety;
+        peakSum += exposure.peakAnxiety || exposure.actualAnxiety;
+        actualSum += exposure.actualAnxiety;
+      });
+      
+      return {
+        avgExpected: (expectedSum / lastN.length).toFixed(1),
+        avgPeak: (peakSum / lastN.length).toFixed(1),
+        avgActual: (actualSum / lastN.length).toFixed(1),
+        count: lastN.length
+      };
+    }
+    
+    function renderChart(period) {
+      let data;
+      let subtitle = '';
+      
+      if (period === 'all') {
+        // Visa alla som genomsnitt
+        data = calculateAverageForLastN(completedExposures.length);
+        subtitle = `Genomsnitt av alla ${completedExposures.length} övningar`;
+      } else {
+        // Visa genomsnitt för senaste N
+        const n = parseInt(period);
+        data = calculateAverageForLastN(n);
+        const actualCount = Math.min(n, completedExposures.length);
+        subtitle = `Genomsnitt av de senaste ${actualCount} övningarna`;
+      }
+      
+      if (!data) return;
+      
+      const options = {
+        chart: {
+          type: 'line',
+          height: 350,
+          toolbar: { show: false },
+          fontFamily: 'inherit'
+        },
+        series: [{
+          name: 'Ångestnivå',
+          data: [
+            parseFloat(data.avgExpected),
+            parseFloat(data.avgPeak),
+            parseFloat(data.avgActual)
+          ]
+        }],
+        xaxis: {
+          categories: ['Före', 'Som högst', 'Efter'],
+          labels: { style: { colors: '#78716c' } }
+        },
+        yaxis: {
+          max: 10,
+          min: 0,
+          title: {
+            text: 'Ångestnivå',
+            style: { color: '#78716c' }
+          }
+        },
+        stroke: {
+          curve: 'smooth',
+          width: 4
+        },
+        markers: {
+          size: 8
+        },
+        colors: ['#dc2626'],
+        subtitle: {
+          text: subtitle,
+          align: 'center',
+          style: {
+            color: '#78716c'
+          }
+        }
+      };
+      
+      if (chart) {
+        chart.updateOptions(options);
+      } else {
+        chart = new ApexCharts(document.querySelector("#chart-container"), options);
+        chart.render();
+      }
+    }
+    
+    // Event listeners för knapparna
+    document.addEventListener('DOMContentLoaded', () => {
+      if (groupedData.length > 0) {
+        // Aktivera första knappen
+        const firstButton = document.querySelector('[data-period="5"]');
+        firstButton.classList.remove('bg-white', 'text-warm-700', 'border-warm-300');
+        firstButton.classList.add('bg-warm-600', 'text-white', 'border-warm-600');
+        
+        renderChart('5');
+        
+        document.querySelectorAll('[data-period]').forEach(button => {
+          button.addEventListener('click', (e) => {
+            // Ta bort active-styling från alla knappar
+            document.querySelectorAll('[data-period]').forEach(btn => {
+              btn.classList.remove('bg-warm-600', 'text-white', 'border-warm-600');
+              btn.classList.add('bg-white', 'text-warm-700', 'border-warm-300');
+            });
+            // Lägg till active-styling på klickad knapp
+            e.target.classList.remove('bg-white', 'text-warm-700', 'border-warm-300');
+            e.target.classList.add('bg-warm-600', 'text-white', 'border-warm-600');
+            // Rendera om grafen
+            renderChart(e.target.dataset.period);
+          });
+        });
+      }
+    });
+  </script>
+  
+
+  
+  
+  
