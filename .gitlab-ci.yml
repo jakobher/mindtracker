@@ -34,10 +34,11 @@ build-job:
 # Job to run unit tests in the test stage
 unit-test-job:
   stage: test
+  image: node:18-alpine
   script:
     - echo "Running unit tests for MindTracker..."
-    - echo "Testing models and controllers..."
-    - sleep 2 # Simulate test time
+    - npm install
+    - npm test
     - echo "All tests passed!"
 
 # Job to lint the code in the test stage
@@ -45,8 +46,8 @@ lint-test-job:
   stage: test
   script:
     - echo "Linting JavaScript code..."
-    - echo "Checking ESLint rules..."
-    - sleep 1 # Simulate linting time
+    - npm install
+    - npm run lint:strict
     - echo "No linting issues found."
 
 # Job to deploy to the production environment
@@ -74,3 +75,4 @@ deploy_production_job:
   needs:
     - unit-test-job
     - lint-test-job
+  when: manual
