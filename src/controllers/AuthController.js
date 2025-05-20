@@ -6,6 +6,8 @@
  */
 
 import { User } from '../models/UserModel.js'
+import { Exposure } from '../models/ExposureModel.js'
+import { ExposureTemplate } from '../models/ExposureTemplateModel.js'
 import bcrypt from 'bcrypt'
 
 /**
@@ -182,6 +184,62 @@ export class AuthController {
       res.redirect('/')
     } catch (error) {
       next(error)
+    }
+  }
+
+  /**
+ * Visar sidan för att ta bort konto.
+ *
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {Function} next - Express next middleware function.
+ */
+  async deleteAccount (req, res, next) {
+    try {
+      res.render('auth/delete-account')
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  /**
+ * Hanterar borttagning av användarkontot.
+ *
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {Function} next - Express next middleware function.
+ */
+  async deleteAccountPost (req, res, next) {
+    try {
+      if (!req.session.user) {
+        req.session.flash = {
+          type: 'danger',
+          message: 'Du måste vara inloggad för att ta bort kontot.'
+        }
+        return res.redirect('/auth/login')
+      }
+
+      // Delete all data from user
+      await Exposure.deleteMany({ user: req.session.user.id })
+      await ExposureTemplate.deleteMany({ user: res.session.user.id })
+
+      // Delete the account
+      await User.deleteOne({ _id: req.session.user.id })
+
+      // Destroy the session
+      req.session.destroy(err => {
+        if (err) {
+          console.error('Ett fel uppstod vid borttagning av sessionen:', err)
+        }
+
+        res.redirect('/')
+      })
+    } catch (error) {
+      req.session.flash = {
+        type: 'danger',
+        message: `Fel vid borttagning av konto: ${error.message}`
+      }
+      res.redirect('/auth/profile')
     }
   }
 }
