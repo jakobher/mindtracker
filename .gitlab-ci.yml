@@ -44,6 +44,7 @@ unit-test-job:
 # Job to lint the code in the test stage
 lint-test-job:
   stage: test
+  image: node:18-alpine
   script:
     - echo "Linting JavaScript code..."
     - npm install
