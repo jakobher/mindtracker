@@ -10,12 +10,12 @@
  */
 export class HomeController {
   /**
-     * Displays the home page.
-     *
-     * @param {object} req - Express request object.
-     * @param {object} res - Express response object.
-     * @param {Function} next - Express next middleware function.
-     */
+   * Displays the home page.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
   async index (req, res, next) {
     try {
       res.render('home/index', {
@@ -28,8 +28,12 @@ export class HomeController {
   }
 
   /**
- * Displays the get started page
- */
+   * Renders the get started page.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
   async getStarted (req, res, next) {
     try {
       res.render('home/get-started', { title: 'Kom igång' })

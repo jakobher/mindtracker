@@ -26,12 +26,13 @@ const hashPassword = async (password) => {
  * Encapsulates a controller.
  */
 export class AuthController {
-  /**
+/**
  * Shows profile page.
  *
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
  * @param {Function} next - Express next middleware function.
+ * @returns {Promise<void>} A promise that resolves when the profile page is rendered.
  */
   async profile (req, res, next) {
     try {
@@ -55,7 +56,7 @@ export class AuthController {
   }
 
   /**
-   * Displays the login page.
+   * Displays the registration page.
    *
    * @param {object} req - The request object.
    * @param {object} res - The response object.
@@ -75,6 +76,7 @@ export class AuthController {
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
    * @param {Function} next - Express next middleware function.
+   * @returns {Promise<void>} A promise that resolves when the registration page is rendered.
    */
   async registerPost (req, res, next) {
     try {
@@ -216,12 +218,12 @@ export class AuthController {
   }
 
   /**
- * Visar sidan för att ta bort konto.
- *
- * @param {object} req - Express request object.
- * @param {object} res - Express response object.
- * @param {Function} next - Express next middleware function.
- */
+   * Visar sidan för att ta bort konto.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
   async deleteAccount (req, res, next) {
     try {
       res.render('auth/delete-account')
@@ -231,12 +233,13 @@ export class AuthController {
   }
 
   /**
- * Delete account functionality
- *
- * @param {object} req - Express request object.
- * @param {object} res - Express response object.
- * @param {Function} next - Express next middleware function.
- */
+   * Handles the deletion of a user account and associated data.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {Promise<void>} A promise that resolves when the account deletion process is complete.
+   */
   async deleteAccountPost (req, res, next) {
     try {
     // Check if user is logged in

@@ -7,8 +7,19 @@
 
 import { Exposure } from '../models/ExposureModel.js'
 
+/**
+ * Controller for handling exposure exercises.
+ *
+ * @class ExposureController
+ */
 export class ExposureController {
-  // Displays the page for creating an exposure hierarchy.
+  /**
+   * Displays the page for creating an exposure hierarchy.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
   async index (req, res, next) {
     try {
       // Get the users exposure-exercises from the database
@@ -23,7 +34,13 @@ export class ExposureController {
     }
   }
 
-  // Displays the form for creating a new exposure exercise.
+  /**
+   * Displays the form for creating a new exposure exercise.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
   async new (req, res, next) {
     try {
       res.render('exposure/new', { title: 'Skapa ny exponeringsövning' })
@@ -32,7 +49,13 @@ export class ExposureController {
     }
   }
 
-  // Creates a new exposure exercise.
+  /**
+   * Creates a new exposure exercise.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
   async create (req, res, next) {
     try {
       const exposure = new Exposure({
@@ -60,6 +83,13 @@ export class ExposureController {
     }
   }
 
+  /**
+   * Creates a new exposure exercise from a template.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
   async createFromTemplate (req, res, next) {
     try {
       const exposure = new Exposure({
@@ -88,7 +118,14 @@ export class ExposureController {
     }
   }
 
-  // Show exposure exercise
+  /**
+   * Displays the details of a specific exposure exercise.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {Promise<void>} Renders the exposure details page or redirects if not found.
+   */
   async show (req, res, next) {
     try {
       const id = req.params.id
@@ -114,6 +151,14 @@ export class ExposureController {
     }
   }
 
+  /**
+   * Shows profile page.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {Promise<void>} Redirects or renders based on completion.
+   */
   async complete (req, res, next) {
     try {
       const id = req.params.id
@@ -147,6 +192,14 @@ export class ExposureController {
     }
   }
 
+  /**
+   * Shows profile page.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {Promise<void>} Renders the edit exposure page or redirects if not found.
+   */
   async edit (req, res, next) {
     try {
       const id = req.params.id
@@ -170,6 +223,14 @@ export class ExposureController {
     }
   }
 
+  /**
+   * Shows profile page.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {Promise<void>} Redirects or renders based on update result.
+   */
   async update (req, res, next) {
     try {
       const id = req.params.id
@@ -207,6 +268,14 @@ export class ExposureController {
     }
   }
 
+  /**
+   * Shows profile page.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {Promise<void>} Renders the delete exposure page or redirects if not found.
+   */
   async renderDelete (req, res, next) {
     try {
       const id = req.params.id
@@ -230,7 +299,13 @@ export class ExposureController {
     }
   }
 
-  // Delete an exposure exercise
+  /**
+   * Shows profile page.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
   async delete (req, res, next) {
     try {
       const id = req.params.id
@@ -256,7 +331,13 @@ export class ExposureController {
     }
   }
 
-  // Help method to find exercise
+  /**
+   * Helper method to find an exposure exercise for a specific user.
+   *
+   * @param {string} exposureId - The ID of the exposure exercise.
+   * @param {string} userId - The ID of the user.
+   * @returns {Promise<object|null>} The exposure exercise if found, otherwise null.
+   */
   async findUserExposure (exposureId, userId) {
     return await Exposure.findOne({
       _id: exposureId,

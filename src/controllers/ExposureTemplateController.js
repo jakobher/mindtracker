@@ -8,9 +8,16 @@
 import { Exposure } from '../models/ExposureModel.js'
 import { ExposureTemplate } from '../models/ExposureTemplateModel.js'
 
+/**
+ * Controller for managing exposure templates.
+ */
 export class ExposureTemplateController {
   /**
-   * Visar exponeringsstegen (lista över mallar ordnade efter svårighet)
+   * Renders a list of exposure templates for the current user.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
    */
   async index (req, res, next) {
     try {
@@ -27,7 +34,11 @@ export class ExposureTemplateController {
   }
 
   /**
-   * Shows form to create a new template
+   * Renders the form to create a new exposure template.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
    */
   async new (req, res, next) {
     try {
@@ -40,7 +51,11 @@ export class ExposureTemplateController {
   }
 
   /**
-   * Create a new template
+   * Handles the creation of a new exposure template.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
    */
   async create (req, res, next) {
     try {
@@ -69,7 +84,12 @@ export class ExposureTemplateController {
   }
 
   /**
-   * Show form to edit a template
+   * Renders the form to edit an existing exposure template.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {Promise<void>} Returns a promise that resolves when the edit form is rendered or a redirect occurs.
    */
   async edit (req, res, next) {
     try {
@@ -96,7 +116,12 @@ export class ExposureTemplateController {
   }
 
   /**
-   * Update a template
+   * Handles updating an existing exposure template.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {Promise<void>} Returns a promise that resolves when the update is complete or a redirect occurs.
    */
   async update (req, res, next) {
     try {
@@ -136,8 +161,13 @@ export class ExposureTemplateController {
   }
 
   /**
- * Shows the delete confirmation view for a template
- */
+   * Renders the view to confirm deletion of an exposure template.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {Promise<void>} Returns a promise that resolves when the delete view is rendered or a redirect occurs.
+   */
   async deleteTemplateView (req, res, next) {
     try {
       const id = req.params.id
@@ -170,7 +200,12 @@ export class ExposureTemplateController {
   }
 
   /**
-   * Delete a template
+   * Handles the deletion of an exposure template.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {Promise<void>} Returns a promise that resolves when the deletion is complete or a redirect occurs.
    */
   async delete (req, res, next) {
     try {
@@ -215,7 +250,12 @@ export class ExposureTemplateController {
   }
 
   /**
-   * Show form to create a new exposure from a template
+   * Renders the form to create a new exposure from a template.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @returns {Promise<void>} Returns a promise that resolves when the form is rendered or a redirect occurs.
    */
   async createExposureForm (req, res, next) {
     try {
@@ -241,7 +281,13 @@ export class ExposureTemplateController {
     }
   }
 
-  // Help method to find template
+  /**
+   * Finds an exposure template by ID and user ID.
+   *
+   * @param {string} id - The ID of the exposure template.
+   * @param {string} userId - The ID of the user.
+   * @returns {Promise<object|null>} The found exposure template or null if not found.
+   */
   async findUserTemplate (id, userId) {
     return ExposureTemplate.findOne({
       _id: id,

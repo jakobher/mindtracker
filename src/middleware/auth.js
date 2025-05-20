@@ -51,7 +51,14 @@ export const isOwner = async (req, res, next) => {
   }
 }
 
-// Middleware för att ladda exponeringsövningen innan ägarskapsvalidering
+/**
+ * Middleware to load an exposure document by ID and attach it to req.doc.
+ *
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {Function} next - Express next middleware function.
+ * @returns {Promise<void>} Redirects or renders based on completion.
+ */
 export const loadExposure = async (req, res, next) => {
   try {
     const id = req.params.id

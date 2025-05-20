@@ -10,8 +10,12 @@
  */
 export class DashboardController {
   /**
-     * Displays the exposure module dashboard.
-     */
+   * Displays the exposure module dashboard.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
   async exposureDashboard (req, res, next) {
     try {
       res.render('dashboard/exposure', { title: 'Exponeringsmodul' })

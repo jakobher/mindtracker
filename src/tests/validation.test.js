@@ -7,6 +7,9 @@ const { describe, test, expect } = require('@jest/globals')
  * This function demonstrates the password validation logic
  * used in AuthController.registerPost method, extracted as a
  * pure function for testing purposes.
+ *
+ * @param {string} password - The password to validate.
+ * @returns {boolean} True if the password is at least 10 characters long, otherwise false.
  */
 function validatePasswordLength (password) {
   return password.length >= 10
