@@ -1,0 +1,35 @@
+<div class="max-w-md mx-auto px-4 py-12">
+  <div class="bg-white rounded-xl shadow-md border border-warm-200 p-8 mb-6">
+    <h1 class="text-2xl font-bold mb-3 text-warm-800">Ta bort konto</h1>
+    <p class="text-warm-600">Är du säker på att du vill ta bort ditt konto? Denna åtgärd kan inte ångras.</p>
+  </div>
+
+  <div class="bg-white rounded-xl shadow-md border border-red-100 p-6">
+    <h2 class="text-lg font-semibold mb-3 text-red-800">Varning!</h2>
+    <p class="text-warm-600 mb-4">
+      Om du tar bort ditt konto kommer all din data att raderas permanent. Detta inkluderar:
+    </p>
+    
+    <ul class="list-disc list-inside mb-6 text-warm-600">
+      <li>Alla dina exponeringsövningar</li>
+      <li>Dina exponeringsstegar och mallar</li>
+      <li>Din användarinformation</li>
+    </ul>
+    
+    <div class="flex items-center space-x-4">
+      <form action="<%= baseURL %>auth/delete-account" method="POST">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <button 
+          type="submit" 
+          class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-6 rounded-lg transition duration-300"
+        >
+          Ja, ta bort mitt konto permanent
+        </button>
+      </form>
+      
+      <a href="<%= baseURL %>" class="bg-warm-100 hover:bg-warm-200 text-warm-800 font-medium py-2 px-6 rounded-lg transition duration-300">
+        Avbryt
+      </a>
+    </div>
+  </div>
+</div>

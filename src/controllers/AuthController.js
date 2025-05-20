@@ -203,7 +203,7 @@ export class AuthController {
   }
 
   /**
- * Hanterar borttagning av användarkontot.
+ * Delete account functionality
  *
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
@@ -211,7 +211,8 @@ export class AuthController {
  */
   async deleteAccountPost (req, res, next) {
     try {
-      if (!req.session.user) {
+    // Check if user is logged in
+      if (!req.session.user || !req.session.user.id) {
         req.session.flash = {
           type: 'danger',
           message: 'Du måste vara inloggad för att ta bort kontot.'
@@ -219,27 +220,41 @@ export class AuthController {
         return res.redirect('/auth/login')
       }
 
-      // Delete all data from user
-      await Exposure.deleteMany({ user: req.session.user.id })
-      await ExposureTemplate.deleteMany({ user: res.session.user.id })
+      const userId = req.session.user.id
 
-      // Delete the account
-      await User.deleteOne({ _id: req.session.user.id })
-
-      // Destroy the session
-      req.session.destroy(err => {
-        if (err) {
-          console.error('Ett fel uppstod vid borttagning av sessionen:', err)
+      // Delete all User data
+      try {
+        await Exposure.deleteMany({ user: userId })
+        await ExposureTemplate.deleteMany({ user: userId })
+        await User.deleteOne({ _id: userId })
+      } catch (deleteError) {
+        console.error('Fel vid borttagning av användardata:', deleteError)
+        req.session.flash = {
+          type: 'danger',
+          message: `Fel vid borttagning av användardata: ${deleteError.message}`
         }
-
-        res.redirect('/')
-      })
-    } catch (error) {
-      req.session.flash = {
-        type: 'danger',
-        message: `Fel vid borttagning av konto: ${error.message}`
+        return res.redirect('/')
       }
-      res.redirect('/auth/profile')
+
+      // Set flash message before destroying the session
+      req.session.flash = {
+        type: 'success',
+        message: 'Ditt konto har tagits bort framgångsrikt.'
+      }
+
+      // Delete user data from session but keep flash-message
+      delete req.session.user
+
+      return res.redirect('/')
+    } catch (error) {
+      console.error('Generellt fel vid borttagning av konto:', error)
+      if (req.session) {
+        req.session.flash = {
+          type: 'danger',
+          message: `Fel vid borttagning av konto: ${error.message}`
+        }
+      }
+      return res.redirect('/')
     }
   }
 }
