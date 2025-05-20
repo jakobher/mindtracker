@@ -27,6 +27,34 @@ const hashPassword = async (password) => {
  */
 export class AuthController {
   /**
+ * Shows profile page.
+ *
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {Function} next - Express next middleware function.
+ */
+  async profile (req, res, next) {
+    try {
+      const user = await User.findById(req.session.user.id)
+
+      if (!user) {
+        req.session.flash = {
+          type: 'danger',
+          message: 'Användaren kunde inte hittas.'
+        }
+        return res.redirect('/')
+      }
+
+      res.render('auth/profile', {
+        title: 'Mitt konto',
+        user
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  /**
    * Displays the login page.
    *
    * @param {object} req - The request object.

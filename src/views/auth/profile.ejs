@@ -1,0 +1,23 @@
+<div class="max-w-md mx-auto px-4 py-12">
+  <div class="bg-white rounded-xl shadow-md border border-warm-200 p-8 mb-6">
+    <h1 class="text-2xl font-bold mb-3 text-warm-800">Mitt konto</h1>
+    <p class="text-warm-600">Hantera din kontoinformation här.</p>
+  </div>
+
+  <div class="bg-white rounded-xl shadow-md border border-warm-200 p-6 mb-6">
+    <h2 class="text-xl font-semibold mb-4 text-warm-800">Kontoinformation</h2>
+    
+    <div class="mb-4">
+      <p class="text-sm text-warm-500 mb-1">Användarnamn</p>
+      <p class="text-warm-800 font-medium"><%= user.username %></p>
+    </div>
+  
+  <!-- Borttagning av konto -->
+  <div class="bg-white rounded-xl shadow-md border border-red-100 p-6">
+    <p class="text-warm-600 mb-4">Var försiktig! Åtgärder här kan inte ångras.</p>
+    
+    <a href="<%= baseURL %>auth/delete-account" class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-6 rounded-lg transition duration-300 inline-block">
+      Ta bort mitt konto
+    </a>
+  </div>
+</div>
