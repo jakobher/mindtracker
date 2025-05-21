@@ -2,9 +2,20 @@
   <div class="container mx-auto px-4 py-4">
     <div class="flex justify-between items-center">
       <div class="flex items-center">
-        <h1 class="text-2xl font-bold text-warm-800">MindTracker</h1>
+        <a href="<%= baseURL %>" class="text-2xl font-bold text-warm-800 hover:text-warm-600 transition-colors">MindTracker</a>
       </div>
-      <nav>
+      
+      <!-- Hamburger menu för mobil -->
+      <div class="md:hidden">
+        <button id="mobile-menu-button" class="text-warm-700 hover:text-warm-900">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+      
+      <!-- Desktop navigation -->
+      <nav class="hidden md:block">
         <ul class="flex space-x-6 items-center">
           <li><a href="<%= baseURL %>" class="text-warm-700 hover:text-warm-900 font-semibold">Hem</a></li>
           <% if (user) { %>
@@ -22,6 +33,7 @@
                 <a href="<%= baseURL %>exposures" class="block px-4 py-2 text-sm text-warm-700 hover:bg-warm-100">Mina övningar</a>
               </div>
             </li>
+            <li><a href="<%= baseURL %>progress" class="text-warm-500 hover:text-warm-700 block">Min utveckling</a></li>
             <li><a href="<%= baseURL %>auth/profile" class="text-warm-500 hover:text-warm-700">Mitt konto</a></li>
             <li><a href="<%= baseURL %>get-started" class="text-warm-500 hover:text-warm-700">Kom igång</a></li>
             <li><a href="<%= baseURL %>auth/logout" class="text-warm-500 hover:text-warm-700">Logga ut</a></li>
@@ -33,5 +45,46 @@
         </ul>
       </nav>
     </div>
+    
+    <!-- Mobile menu, visas/döljs med JavaScript -->
+    <div id="mobile-menu" class="md:hidden hidden mt-4 pb-4">
+      <nav>
+        <ul class="flex flex-col space-y-4">
+          <li><a href="<%= baseURL %>" class="text-warm-700 hover:text-warm-900 font-semibold">Hem</a></li>
+          <% if (user) { %>
+            <li class="border-t border-warm-200 pt-4 mt-4">
+              <a href="<%= baseURL %>dashboard/exposure" class="text-warm-600 font-medium block mb-2">Exponeringsmodul</a>
+              <ul class="pl-4 space-y-2">
+                <li><a href="<%= baseURL %>dashboard/exposure" class="text-warm-500 hover:text-warm-700 block">Dashboard</a></li>
+                <li><a href="<%= baseURL %>exposure-templates" class="text-warm-500 hover:text-warm-700 block">Exponeringsstege</a></li>
+                <li><a href="<%= baseURL %>exposures" class="text-warm-500 hover:text-warm-700 block">Mina övningar</a></li>
+              </ul>
+            </li>
+            <li><a href="<%= baseURL %>progress" class="text-warm-500 hover:text-warm-700 block">Min utveckling</a></li>
+            <li><a href="<%= baseURL %>auth/profile" class="text-warm-500 hover:text-warm-700 block">Mitt konto</a></li>
+            <li><a href="<%= baseURL %>get-started" class="text-warm-500 hover:text-warm-700 block">Kom igång</a></li>
+            <li><a href="<%= baseURL %>auth/logout" class="text-warm-500 hover:text-warm-700 block">Logga ut</a></li>
+          <% } else { %>
+            <li><a href="<%= baseURL %>auth/login" class="text-warm-500 hover:text-warm-700 block">Logga in</a></li>
+            <li><a href="<%= baseURL %>auth/register" class="text-warm-500 hover:text-warm-700 block">Registrera</a></li>
+            <li><a href="<%= baseURL %>get-started" class="text-warm-500 hover:text-warm-700 block">Kom igång</a></li>
+          <% } %>
+        </ul>
+      </nav>
+    </div>
   </div>
 </header>
+
+<!-- JavaScript för att hantera mobilmenyn -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    if (mobileMenuButton && mobileMenu) {
+      mobileMenuButton.addEventListener('click', function() {
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+  });
+</script>

@@ -1,12 +1,12 @@
 <!-- exposure/index.ejs -->
-<div class="max-w-6xl mx-auto px-4 py-12">
+<div class="max-w-6xl mx-auto px-4 py-8">
   <div class="bg-white rounded-xl shadow-md border border-warm-200 p-8 mb-6">
-    <div class="flex justify-between items-center">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
       <div>
         <h1 class="text-2xl font-bold mb-2 text-warm-800">Exponeringsövningar</h1>
         <p class="text-warm-600">Hantera dina exponeringsövningar här.</p>
       </div>
-      <a href="<%= baseURL %>exposures/new" class="bg-warm-600 hover:bg-warm-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300">
+      <a href="<%= baseURL %>exposures/new" class="w-full sm:w-auto bg-warm-600 hover:bg-warm-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300 text-center">
         Lägg till ny övning
       </a>
     </div>
@@ -14,41 +14,53 @@
 
   <!-- Filter Buttons -->
   <div class="bg-white rounded-xl shadow-md border border-warm-200 p-4 mb-6">
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
       <h2 class="text-lg font-semibold mb-2 sm:mb-0 text-warm-800">Filtrera övningar</h2>
-      <div class="flex gap-2">
-        <button id="filter-all" class="px-4 py-2 bg-warm-600 text-white rounded-lg hover:bg-warm-700 transition">Alla</button>
-        <button id="filter-planned" class="px-4 py-2 bg-warm-100 text-warm-800 rounded-lg hover:bg-warm-200 transition">Planerade</button>
-        <button id="filter-completed" class="px-4 py-2 bg-warm-100 text-warm-800 rounded-lg hover:bg-warm-200 transition">Genomförda</button>
+      <div class="flex gap-2 w-full sm:w-auto">
+        <button id="filter-all" class="flex-1 sm:flex-initial px-4 py-2 bg-warm-600 text-white rounded-lg hover:bg-warm-700 transition">Alla</button>
+        <button id="filter-planned" class="flex-1 sm:flex-initial px-4 py-2 bg-warm-100 text-warm-800 rounded-lg hover:bg-warm-200 transition">Planerade</button>
+        <button id="filter-completed" class="flex-1 sm:flex-initial px-4 py-2 bg-warm-100 text-warm-800 rounded-lg hover:bg-warm-200 transition">Genomförda</button>
       </div>
     </div>
   </div>
 
   <% if (exposures && exposures.length > 0) { %>
+    <!-- Sorterad lista med nyaste först -->
+    <% 
+    // Sortera övningar med nyaste först
+    const sortedExposures = [...exposures].sort((a, b) => {
+      return new Date(b.date) - new Date(a.date);
+    });
+    %>
+    
     <div class="bg-white rounded-xl shadow-md border border-warm-200 overflow-hidden">
       <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-warm-200">
           <thead class="bg-warm-50">
             <tr>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-warm-700 uppercase tracking-wider">Titel</th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-warm-700 uppercase tracking-wider">Plats</th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-warm-700 uppercase tracking-wider">Datum</th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-warm-700 uppercase tracking-wider">Ångestnivå/Kommentar</th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-warm-700 uppercase tracking-wider">Status</th>
-              <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-warm-700 uppercase tracking-wider">
+              <th scope="col" class="px-4 sm:px-6 py-3 text-left text-xs font-medium text-warm-700 uppercase tracking-wider">Titel</th>
+              <th scope="col" class="hidden sm:table-cell px-6 py-3 text-left text-xs font-medium text-warm-700 uppercase tracking-wider">Plats</th>
+              <th scope="col" class="px-4 sm:px-6 py-3 text-left text-xs font-medium text-warm-700 uppercase tracking-wider">Datum</th>
+              <th scope="col" class="hidden sm:table-cell px-6 py-3 text-left text-xs font-medium text-warm-700 uppercase tracking-wider">Ångestnivå</th>
+              <th scope="col" class="px-4 sm:px-6 py-3 text-left text-xs font-medium text-warm-700 uppercase tracking-wider">Status</th>
+              <th scope="col" class="px-4 sm:px-6 py-3 text-right text-xs font-medium text-warm-700 uppercase tracking-wider">
                 Åtgärder
               </th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-warm-100">
-            <% exposures.forEach(exposure => { %>
+            <% sortedExposures.forEach(exposure => { %>
               <tr class="exposure-row <%= exposure.completed ? 'completed-row' : 'planned-row' %>">
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-warm-800"><%= exposure.title %></td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-warm-600"><%= exposure.location %></td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-warm-600"><%= new Date(exposure.date).toLocaleDateString() %></td>
+                <td class="px-4 sm:px-6 py-4 whitespace-nowrap text-sm font-medium text-warm-800">
+                  <a href="<%= baseURL %>exposures/<%= exposure.id %>" class="hover:text-warm-600">
+                    <%= exposure.title %>
+                  </a>
+                </td>
+                <td class="hidden sm:table-cell px-6 py-4 whitespace-nowrap text-sm text-warm-600"><%= exposure.location %></td>
+                <td class="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-warm-600"><%= new Date(exposure.date).toLocaleDateString() %></td>
                 
-                <!-- Visa antingen ångestnivå eller kommentar beroende på status -->
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-warm-600">
+                <!-- Visa ångestnivå (endast på desktop) -->
+                <td class="hidden sm:table-cell px-6 py-4 whitespace-nowrap text-sm text-warm-600">
                   <% if (!exposure.completed) { %>
                     <div class="flex items-center">
                       <div class="relative w-24 h-3 bg-warm-100 rounded-full overflow-hidden">
@@ -58,39 +70,40 @@
                       <span class="ml-2 text-sm text-warm-600"><%= exposure.expectedAnxiety %>/10</span>
                     </div>
                   <% } else if (exposure.comment) { %>
-                    <%= exposure.comment %>
+                    <%= exposure.comment.length > 20 ? exposure.comment.substring(0, 20) + '...' : exposure.comment %>
                   <% } else { %>
                     <span class="text-warm-400">Ingen kommentar</span>
                   <% } %>
                 </td>
                 
-                <td class="px-6 py-4 whitespace-nowrap">
+                <td class="px-4 sm:px-6 py-4 whitespace-nowrap">
                   <% if (exposure.completed) { %>
                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Genomförd</span>
                   <% } else { %>
                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-warm-100 text-warm-800">Planerad</span>
                   <% } %>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex justify-end gap-2">
-                  <% if (!exposure.completed) { %>
-                    <a href="<%= baseURL %>exposures/<%= exposure.id %>" class="bg-warm-100 hover:bg-warm-200 text-warm-800 font-medium py-1 px-3 rounded-md transition duration-300">Slutför</a>
-                  <% } else { %>
-                    <a href="<%= baseURL %>exposures/<%= exposure.id %>" class="bg-warm-100 hover:bg-warm-200 text-warm-800 font-medium py-1 px-3 rounded-md transition duration-300">Detaljer</a>
-                  <% } %>
-                
-                  <a href="<%= baseURL %>exposures/<%= exposure.id %>/edit" class="text-warm-500 hover:text-warm-700 transition-colors p-1 rounded" title="Redigera">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                    </svg>
-                  </a>
-                
-                  <a href="<%= baseURL %>exposures/<%= exposure.id %>/delete" class="text-warm-500 hover:text-warm-700 transition-colors p-1 rounded" title="Ta bort">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                  </a>
+                <td class="px-4 sm:px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <div class="flex justify-end gap-2">
+                    <% if (!exposure.completed) { %>
+                      <a href="<%= baseURL %>exposures/<%= exposure.id %>" class="bg-warm-100 hover:bg-warm-200 text-warm-800 font-medium py-1 px-2 sm:px-3 rounded-md transition duration-300 text-xs sm:text-sm">Slutför</a>
+                    <% } else { %>
+                      <a href="<%= baseURL %>exposures/<%= exposure.id %>" class="bg-warm-100 hover:bg-warm-200 text-warm-800 font-medium py-1 px-2 sm:px-3 rounded-md transition duration-300 text-xs sm:text-sm">Detaljer</a>
+                    <% } %>
+                  
+                    <a href="<%= baseURL %>exposures/<%= exposure.id %>/edit" class="text-warm-500 hover:text-warm-700 transition-colors p-1 rounded hidden sm:block" title="Redigera">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                      </svg>
+                    </a>
+                  
+                    <a href="<%= baseURL %>exposures/<%= exposure.id %>/delete" class="text-warm-500 hover:text-warm-700 transition-colors p-1 rounded hidden sm:block" title="Ta bort">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </a>
+                  </div>
                 </td>
-                
               </tr>
             <% }); %>
           </tbody>

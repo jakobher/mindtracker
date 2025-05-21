@@ -28,9 +28,13 @@
         <h2 class="text-xl font-semibold text-center mb-2 text-warm-800">Framstegsspårning</h2>
         <p class="text-warm-600 text-center">Visualisera dina framsteg över tid och se hur din ångestnivå minskar med regelbundna övningar.</p>
       </div>
-      <div class="bg-warm-50 px-6 py-4">
-        <button disabled class="w-full py-2 bg-warm-200 text-warm-700 rounded font-medium">Kommer snart</button>
-      </div>
+        <div class="bg-warm-50 px-6 py-4">
+    <% if (username) { %>
+      <a href="<%= baseURL %>progress" class="block w-full py-2 bg-warm-600 hover:bg-warm-700 text-white rounded font-medium text-center transition duration-300">Se min utveckling</a>
+    <% } else { %>
+      <a href="<%= baseURL %>auth/login" class="block w-full py-2 bg-warm-600 hover:bg-warm-700 text-white rounded font-medium text-center transition duration-300">Logga in</a>
+    <% } %>
+  </div>
     </div>
 
     <!-- Exponeringsmodul -->
