@@ -12,7 +12,7 @@ export const router = express.Router()
 const controller = new ExposureController()
 
 // Skydda alla routes med authentication middleware
-// router.use(isAuthenticated)
+router.use(isAuthenticated)
 
 router.get('/exposure', (req, res, next) => controller.dashboard(req, res, next))
 
@@ -20,15 +20,15 @@ router.get('/exposure', (req, res, next) => controller.dashboard(req, res, next)
 router.get('/', (req, res, next) => controller.index(req, res, next))
 router.get('/new', (req, res, next) => controller.new(req, res, next))
 router.post('/create', (req, res, next) => controller.create(req, res, next))
-router.get('/:id/delete', isAuthenticated, loadExposure, isOwner, (req, res, next) => controller.renderDelete(req, res, next))
-router.get('/:id', isAuthenticated, loadExposure, isOwner, (req, res, next) => controller.show(req, res, next))
+router.get('/:id/delete', loadExposure, isOwner, (req, res, next) => controller.renderDelete(req, res, next))
+router.get('/:id', loadExposure, isOwner, (req, res, next) => controller.show(req, res, next))
 
 // Route to create exposure from template
 router.post('/create-from-template', (req, res, next) => controller.createFromTemplate(req, res, next))
 
 // Route to mark exercise as done
-router.post('/:id/complete', isAuthenticated, loadExposure, isOwner, (req, res, next) => controller.complete(req, res, next))
+router.post('/:id/complete', loadExposure, isOwner, (req, res, next) => controller.complete(req, res, next))
 
-router.get('/:id/edit', isAuthenticated, loadExposure, isOwner, (req, res, next) => controller.edit(req, res, next))
-router.post('/:id/update', isAuthenticated, loadExposure, isOwner, (req, res, next) => controller.update(req, res, next))
-router.post('/:id/delete', isAuthenticated, loadExposure, isOwner, (req, res, next) => controller.delete(req, res, next))
+router.get('/:id/edit', loadExposure, isOwner, (req, res, next) => controller.edit(req, res, next))
+router.post('/:id/update', loadExposure, isOwner, (req, res, next) => controller.update(req, res, next))
+router.post('/:id/delete', loadExposure, isOwner, (req, res, next) => controller.delete(req, res, next))
