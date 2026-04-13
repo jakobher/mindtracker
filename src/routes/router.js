@@ -11,6 +11,7 @@ import { router as exposureRouter } from './exposureRouter.js'
 import { router as exposureTemplateRouter } from './exposureTemplateRouter.js'
 import { router as dashboardRouter } from './dashboardRouter.js'
 import { router as progressRouter } from './progressRouter.js'
+import { router as apiAuthRouter } from './apiAuthRouter.js'
 
 export const router = express.Router()
 
@@ -21,3 +22,4 @@ router.use('/dashboard', dashboardRouter)
 router.use('/exposures', exposureRouter)
 router.use('/exposure-templates', exposureTemplateRouter)
 router.use('/progress', progressRouter)
+router.use('/api/auth', apiAuthRouter)
