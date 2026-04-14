@@ -52,7 +52,7 @@ try {
   app.use(session(sessionOptions))
 
   // Register API routes BEFORE CSRF
-  app.use('/api', apiRouter)
+  app.use('/api/auth', apiRouter)
 
   // Setup and use the CSRF protection middleware
   app.use(csurf())
