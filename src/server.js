@@ -13,6 +13,7 @@ import { connectToDatabase } from './config/mongoose.js'
 import { sessionOptions } from './config/sessionOptions.js'
 import { router } from './routes/router.js'
 import { errorHandler } from './middleware/errorHandler.js'
+import { router as apiRouter } from './routes/apiAuthRouter.js'
 
 try {
   // Connect to MongoDB
@@ -36,6 +37,9 @@ try {
   // Parse requests of the content type application/x-www-form-urlencoded
   app.use(express.urlencoded({ extended: false }))
 
+  // Parse JSON requests (for API)
+  app.use(express.json())
+
   // Serve static files from the public directory
   app.use(express.static(join(directoryFullName, 'public')))
 
@@ -46,6 +50,9 @@ try {
 
   // Setup and use the session middleware
   app.use(session(sessionOptions))
+
+  // Register API routes BEFORE CSRF
+  app.use('/api', apiRouter)
 
   // Setup and use the CSRF protection middleware
   app.use(csurf())
