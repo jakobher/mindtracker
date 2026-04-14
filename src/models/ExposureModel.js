@@ -16,7 +16,7 @@ const schema = new mongoose.Schema({
   },
   location: {
     type: String,
-    required: true
+    default: ''
   },
   date: {
     type: Date,

@@ -14,6 +14,8 @@ import { sessionOptions } from './config/sessionOptions.js'
 import { router } from './routes/router.js'
 import { errorHandler } from './middleware/errorHandler.js'
 import { router as apiRouter } from './routes/apiAuthRouter.js'
+import { router as apiExposureRouter } from './routes/apiExposureRouter.js'
+import { router as apiThoughtRouter } from './routes/apiThoughtRouter.js'
 
 try {
   // Connect to MongoDB
@@ -53,6 +55,8 @@ try {
 
   // Register API routes BEFORE CSRF
   app.use('/api/auth', apiRouter)
+  app.use('/api/exposures', apiExposureRouter)
+  app.use('/api/thoughts', apiThoughtRouter)
 
   // Setup and use the CSRF protection middleware
   app.use(csurf())
